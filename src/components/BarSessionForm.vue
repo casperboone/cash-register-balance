@@ -1,10 +1,25 @@
 <template>
-  <div>
-    <cash-state-form :cashState="barSession.initialCashState" title="Kas bij aanvang"></cash-state-form>
-    <cash-state-form :cashState="barSession.finalCashState" title="Kas na afloop"></cash-state-form>
-    <cash-state-form :cashState="barSession.effluentCashState" title="Kas naar wisselkuis"></cash-state-form>
+  <div class="flex flex-wrap min-h-full">
 
-    <totals :barSession="barSession"></totals>
+    <div class="w-full md:w-5/6 py-8">
+
+      <div class="flex flex-wrap mx-4">
+        <div class="w-full md:w-1/3">
+          <cash-state-form :cashState="barSession.initialCashState" title="Kas bij aanvang"></cash-state-form>
+        </div> 
+        <div class="w-full md:w-1/3">
+          <cash-state-form :cashState="barSession.finalCashState" title="Kas na afloop"></cash-state-form>
+        </div>
+        <div class="w-full md:w-1/3">
+          <cash-state-form :cashState="barSession.effluentCashState" title="Kas naar wisselkuis"></cash-state-form>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="w-full md:w-1/6 bg-grey-lighter shadow p-8">
+        <totals :barSession="barSession"></totals>
+    </div>
 
   </div>
 </template>

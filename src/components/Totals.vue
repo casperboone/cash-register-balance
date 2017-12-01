@@ -1,34 +1,36 @@
 <template>
   <div>
-    <table>
+    <table class="w-full">
       <tbody>
         <tr>
-          <td>Aangeslagen Cash</td>
-          <td><input type="text" v-model.number="barSession.theoreticalCashTotal"></td>
+          <td class="text-grey-darker my-2">Aangeslagen cash</td>
+          <td class="py-2 text-right"><input type="text" v-model.number="barSession.theoreticalCashTotal" class="form-input bg-white w-32 text-right"></td>
         </tr>
         <tr>
-          <td>Aangeslagen PIN</td>
-          <td><input type="text" v-model.number="barSession.theoreticalPinTotal"></td>
+          <td class="text-grey-darker my-2">Aangeslagen PIN</td>
+          <td class="py-2 text-right"><input type="text" v-model.number="barSession.theoreticalPinTotal" class="form-input bg-white w-32 text-right"></td>
         </tr>
         <tr>
-          <td>Getelde Cash</td>
-          <td>{{ barSession.cashDifferenceTotal() }}</td>
+          <td class="text-grey-darker my-2">Getelde cash</td>
+          <td class="py-2 text-right pr-4">{{ barSession.cashDifferenceTotal() | currency('') }}</td>
         </tr>
         <tr>
-          <td>Totaal PIN-terminal</td>
-          <td><input type="text" v-model.number="barSession.pinTerminalTotal"></td>
+          <td class="text-grey-darker">Totaal PIN-terminal</td>
+          <td class="py-2 text-right">
+            <money-input v-model.number="barSession.pinTerminalTotal" class="form-input bg-white w-32 text-right"></money-input>
+          </td>
         </tr>
         <tr>
-          <td>Totale omzet</td>
-          <td>{{ barSession.revenueTotal() }}</td>
+          <td class="text-grey-darker">Totale omzet</td>
+          <td class="py-2 text-right pr-4">{{ barSession.revenueTotal() | currency('') }}</td>
         </tr>
         <tr>
-          <td>Naar grijze kluis</td>
-          <td>{{ barSession.effluentTotal() }}</td>
+          <td class="text-grey-darker">Naar grijze kluis</td>
+          <td class="py-2 text-right pr-4">{{ barSession.effluentTotal() | currency('') }}</td>
         </tr>
         <tr>
-          <td>Naar wisselkas</td>
-          <td>{{ barSession.changeSafeTotal() }}</td>
+          <td class="text-grey-darker">Naar wisselkas</td>
+          <td class="py-2 text-right pr-4">{{ barSession.changeSafeTotal() | currency('') }}</td>
         </tr>
       </tbody>
     </table>
@@ -36,7 +38,12 @@
 </template>
 
 <script>
+import MoneyInput from '@/components/MoneyInput'
+
 export default {
-  props: ['barSession']
+  props: ['barSession'],
+  components: {
+    'money-input': MoneyInput
+  }
 }
 </script>
