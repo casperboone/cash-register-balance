@@ -4,28 +4,28 @@
 
 <script>
 export default {
-    props: ["value"],
-    data: function() {
-        return {
-            isInputActive: false,
-            update: false
-        }
-    },
-    computed: {
-        displayValue: {
-            get: function() {
-                return this.value
-            },
-            set: function(modifiedValue) {
-                let newValue = parseFloat(modifiedValue.replace(',', '.'))
-
-                if (isNaN(newValue)) {
-                    newValue = 0
-                }
-                
-                this.$emit('input', newValue)
-            }
-        }
+  props: ['value'],
+  data: function () {
+    return {
+      isInputActive: false,
+      update: false
     }
+  },
+  computed: {
+    displayValue: {
+      get: function () {
+        return this.value
+      },
+      set: function (modifiedValue) {
+        let newValue = parseFloat(modifiedValue.replace(',', '.'))
+
+        if (isNaN(newValue)) {
+          newValue = 0
+        }
+
+        this.$emit('input', newValue)
+      }
+    }
+  }
 }
 </script>
