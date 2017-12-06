@@ -6,12 +6,12 @@
       <div class="flex flex-wrap mx-4">
         <div class="w-full md:w-1/3">
           <cash-state-form :cashState="barSession.initialCashState" title="Kas bij aanvang"></cash-state-form>
-        </div> 
+        </div>
         <div class="w-full md:w-1/3">
           <cash-state-form :cashState="barSession.finalCashState" title="Kas na afloop"></cash-state-form>
         </div>
         <div class="w-full md:w-1/3">
-          <cash-state-form :cashState="barSession.effluentCashState" title="Kas naar wisselkuis"></cash-state-form>
+          <cash-state-form :cashState="barSession.effluentCashState()" title="Kas naar wisselkuis"></cash-state-form>
         </div>
       </div>
 
