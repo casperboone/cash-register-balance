@@ -24,7 +24,7 @@ export default class BarSession {
   }
 
   changeSafeTotal () {
-    return this.revenueTotal() - this.effluentTotal()
+    return this.finalCashState.total() - this.effluentTotal()
   }
 
   effluentCashState () {
