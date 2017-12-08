@@ -16,20 +16,23 @@
 
         <div v-for="bill in cashState.bills" :key="bill.amount">
           <div class="flex justify-between mb-3 items-center">
-            <div class="flex-auto">
+            <div class="flex-auto"  v-if="cashState.editable">
               <input type="text" v-model.number="bill.count" class="form-input w-32">  x &euro; {{ bill.amount | currency('') }}
+            </div>
+            <div class="flex-auto"  v-if="!cashState.editable">
+              <input disabled="disabled" type="text" v-model.number="bill.count" class="form-input w-32">  x &euro; {{ bill.amount | currency('') }}
             </div>
             <div class="flex-auto text-right pr-4">&euro; {{ bill.total() | currency('') }}</div>
           </div>
         </div>
 
-        <div class="text-right">
+        <div class="text-right" v-if="cashState.editable">
           Noodwisselgeld - &euro;
           <input type="text" v-model.number="cashState.emergencyCash" class="form-input text-right w-32">
         </div>
 
       </div>
-      
+
       <div class="p-8 bg-grey-lighter">
         <div class="flex justify-between mb-3 items-center">
             <div class="flex-auto">
