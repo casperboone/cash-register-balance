@@ -38,11 +38,11 @@ export default class BarSession {
     // is close to 200
     var nextBill = 2
     while (this.finalCashState.total() - state.total() > 220) {
-      if (this.finalCashState.bills[nextBill].count > state.bills[nextBill].count) {
-        state.bills[nextBill].count++
-      } else {
-        nextBill++
-      }
+      state.bills[nextBill].count = Math.min(
+        this.finalCashState.bills[nextBill].count,
+        Math.floor((this.finalCashState.total() - state.total() - 200) / state.bills[nextBill].amount)
+      )
+      nextBill++
     }
 
     return state
