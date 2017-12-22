@@ -30,7 +30,7 @@ import CashStateForm from '@/components/CashStateForm'
 import Totals from '@/components/Totals'
 
 export default {
-  name: 'BarSessionForm',
+  name: 'BarSession',
   components: {
     'cash-state-form': CashStateForm,
     'totals': Totals

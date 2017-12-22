@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import BarSessionForm from '@/components/BarSessionForm'
+import BarSessionsOverview from '@/pages/BarSessionsOverview'
+import BarSession from '@/pages/BarSession'
 
 Vue.use(Router)
 
@@ -8,8 +9,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'BarSessionForm',
-      component: BarSessionForm
+      name: 'BarSessionsOverview',
+      component: BarSessionsOverview
+    },
+    {
+      path: '/barsession',
+      name: 'BarSession',
+      component: BarSession
     }
   ]
 })
