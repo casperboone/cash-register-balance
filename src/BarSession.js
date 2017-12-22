@@ -30,6 +30,8 @@ export default class BarSession {
   effluentCashState () {
     let state = new CashState(false)
 
+    state.author = this.finalCashState.author
+
     // Always put all 50 and 100 euro bills in the grey safe
     state.bills[0].count = this.finalCashState.bills[0].count
     state.bills[1].count = this.finalCashState.bills[1].count
