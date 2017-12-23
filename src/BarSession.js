@@ -1,14 +1,18 @@
 import CashState from './CashState'
+import BarSessionFile from './BarSessionFile'
 
 export default class BarSession {
-  constructor () {
+  constructor (file = new BarSessionFile()) {
     this.initialCashState = new CashState()
     this.finalCashState = new CashState()
+    this._effluentCashState = new CashState(false)
 
     this.theoreticalCashTotal = 0
     this.theoreticalPinTotal = 0
 
     this.pinTerminalTotal = 0
+
+    this.file = file
   }
 
   cashDifferenceTotal () {
@@ -28,7 +32,7 @@ export default class BarSession {
   }
 
   effluentCashState () {
-    let state = new CashState(false)
+    let state = this._effluentCashState
 
     state.author = this.finalCashState.author
 
@@ -48,5 +52,9 @@ export default class BarSession {
     }
 
     return state
+  }
+
+  store () {
+    this.file.store(this)
   }
 }

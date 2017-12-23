@@ -9,6 +9,7 @@ function resolve (dir) {
 }
 
 module.exports = {
+  target: 'electron',
   context: path.resolve(__dirname, '../'),
   entry: {
     app: './src/main.js'

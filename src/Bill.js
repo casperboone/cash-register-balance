@@ -1,7 +1,7 @@
 export default class Bill {
-  constructor (amount) {
+  constructor (amount, count = 0) {
     this.amount = amount
-    this.count = 0
+    this.count = count
   }
 
   total () {

@@ -4,7 +4,7 @@ const {app, BrowserWindow} = require('electron')
 let win = null;
 
 app.on('ready', function () {
-
+  
   // Initialize the window to our specified dimensions
   win = new BrowserWindow({width: 1000, height: 600});
 

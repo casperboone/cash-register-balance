@@ -3,6 +3,8 @@
 
     <div class="w-full md:w-5/6 py-8">
 
+    <button @click="barSession.store()">save</button>
+    <button @click="barSession.file.read()">read and log to console</button>
       <div class="flex flex-wrap mx-4">
         <div class="w-full md:w-1/3">
           <cash-state-form :cashState="barSession.initialCashState" title="Kas bij aanvang"></cash-state-form>
