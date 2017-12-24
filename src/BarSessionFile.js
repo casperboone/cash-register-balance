@@ -1,15 +1,22 @@
 import { remote } from 'electron'
 import fs from 'fs'
+import path from 'path'
 import uniqueFilename from 'unique-filename'
 import BarSession from './BarSession'
-import CashState from './CashState'
 import Bill from './Bill'
 
-const userDataPath = remote.app.getPath('userData')
+const userDataPath = path.join(remote.app.getPath('userData'))
+const prefix = 'session'
 
 export default class BarSessionFile {
   constructor (filePath = this.generateFilePath()) {
     this.filePath = filePath
+  }
+
+  static all () {
+    return fs.readdirSync(userDataPath)
+      .filter(file => file.startsWith(prefix))
+      .map(file => new BarSessionFile(path.join(userDataPath, file)))
   }
 
   store (barSession) {
@@ -22,18 +29,14 @@ export default class BarSessionFile {
 
     const barSession = new BarSession(this)
 
-    barSession.initialCashState = new CashState()
     barSession.initialCashState.bills = rawObject.initialCashState.bills.map(bill => new Bill(bill.amount, bill.count))
     barSession.initialCashState.author = rawObject.initialCashState.author
     barSession.initialCashState.emergencyCash = rawObject.initialCashState.emergencyCash
 
-    barSession.finalCashState = new CashState()
     barSession.finalCashState.bills = rawObject.finalCashState.bills.map(bill => new Bill(bill.amount, bill.count))
     barSession.finalCashState.author = rawObject.finalCashState.author
     barSession.finalCashState.emergencyCash = rawObject.finalCashState.emergencyCash
-    barSession.initialCashState.emergencyCash = rawObject.initialCashState.emergencyCash
 
-    barSession._effluentCashState = new CashState()
     barSession._effluentCashState.bills = rawObject._effluentCashState.bills.map(bill => new Bill(bill.amount, bill.count))
     barSession._effluentCashState.author = rawObject._effluentCashState.author
     barSession._effluentCashState.emergencyCash = rawObject._effluentCashState.emergencyCash
@@ -47,6 +50,6 @@ export default class BarSessionFile {
   }
 
   generateFilePath () {
-    return uniqueFilename(userDataPath, 'asdf') + '.json'
+    return uniqueFilename(userDataPath, prefix) + '.json'
   }
 }

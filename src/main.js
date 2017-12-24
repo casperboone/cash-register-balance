@@ -14,6 +14,7 @@ Vue.use(VueNumeric)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  data: {test: 123},
   router,
   template: '<App/>',
   components: { App }

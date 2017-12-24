@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import BarSession from '../BarSession'
 import CashStateForm from '@/components/CashStateForm'
 import Totals from '@/components/Totals'
 
@@ -39,7 +38,7 @@ export default {
   },
   data () {
     return {
-      barSession: new BarSession()
+      barSession: this.$parent.currentSession
     }
   }
 }

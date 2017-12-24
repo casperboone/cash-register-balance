@@ -8,32 +8,12 @@
               <h3 class="text-xl font-semibold text-grey-black">Ga verder met een bestaande sessie...</h3>
             </div>
 
-            <div class="px-8 py-2 bg-grey-lighter border-b">
-              Item
-            </div>
-            <div class="px-8 py-2 bg-grey-lightest border-b">
-              Item
-            </div>
-            <div class="px-8 py-2 bg-grey-lighter border-b">
-              Item
-            </div>
-            <div class="px-8 py-2 bg-grey-lightest border-b">
-              Item
-            </div>
-            <div class="px-8 py-2 bg-grey-lighter border-b">
-              Item
-            </div>
-            <div class="px-8 py-2 bg-grey-lightest border-b">
-              Item
-            </div>
-            <div class="px-8 py-2 bg-grey-lighter border-b">
-              Item
-            </div>
-            <div class="px-8 py-2 bg-grey-lightest border-b">
-              Item
-            </div>
-            <div class="px-8 py-2 bg-grey-lighter border-b">
-              Item
+            <div 
+              v-for="(file, i) in barSessionFiles" 
+              :key="file.filePath" 
+              :class="['px-8', 'py-2', i % 2 == 0 ? 'bg-grey-lighter' : 'bg-grey-lightest', 'border-b']"
+              v-text="file.filePath"
+              @click="loadSession(file)">
             </div>
             
           </div>
@@ -47,7 +27,7 @@
             </div>
 
             <div class="p-8 bg-grey-lighter">
-              <router-link to="barsession">Form</router-link>
+              <a @click="createSession()">create</a>
             </div>
           </div>
 
@@ -60,6 +40,7 @@
 
 <script>
 import BarSession from '../BarSession'
+import BarSessionFile from '../BarSessionFile'
 import CashStateForm from '@/components/CashStateForm'
 import Totals from '@/components/Totals'
 
@@ -71,7 +52,19 @@ export default {
   },
   data () {
     return {
-      barSession: new BarSession()
+      barSessionFiles: BarSessionFile.all()
+    }
+  },
+  methods: {
+    createSession () {
+      this.$parent.currentSession = new BarSession()
+
+      this.$router.push('barsession')
+    },
+    loadSession (file) {
+      this.$parent.currentSession = file.read()
+
+      this.$router.push('barsession')
     }
   }
 }
