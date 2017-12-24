@@ -4,6 +4,7 @@ import path from 'path'
 import uniqueFilename from 'unique-filename'
 import BarSession from './BarSession'
 import Bill from './Bill'
+import BarSessionType from './BarSessionType'
 
 const userDataPath = path.join(remote.app.getPath('userData'))
 const prefix = 'session'
@@ -28,6 +29,9 @@ export default class BarSessionFile {
     const rawObject = JSON.parse(fileContents)
 
     const barSession = new BarSession(this)
+
+    barSession.date = new Date(rawObject.date)
+    barSession.type = BarSessionType.getById(rawObject.type.id)
 
     barSession.initialCashState.bills = rawObject.initialCashState.bills.map(bill => new Bill(bill.amount, bill.count))
     barSession.initialCashState.author = rawObject.initialCashState.author

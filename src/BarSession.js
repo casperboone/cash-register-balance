@@ -12,6 +12,9 @@ export default class BarSession {
 
     this.pinTerminalTotal = 0
 
+    this.type = undefined
+    this.date = new Date()
+
     this.file = file
   }
 

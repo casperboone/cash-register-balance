@@ -12,11 +12,13 @@
   },
   "dependencies": {
     "electron": "^1.7.10",
+    "moment": "^2.20.1",
     "unique-filename": "^1.1.0",
     "vue": "^2.5.2",
     "vue-numeric": "^2.2.8",
     "vue-router": "^3.0.1",
-    "vue2-filters": "^0.2.2"
+    "vue2-filters": "^0.2.2",
+    "vuejs-datepicker": "^0.9.22"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
