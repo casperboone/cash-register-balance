@@ -39,7 +39,7 @@ export default class BarSessionFile {
     const date = new Date(rawObject.date)
     const type = BarSessionType.getById(rawObject.type.id)
 
-    const barSession = new BarSession(date, type, this)
+    const barSession = new BarSession(type, date, this)
 
     barSession.initialCashState.bills = rawObject.initialCashState.bills.map(bill => new Bill(bill.amount, bill.count))
     barSession.initialCashState.author = rawObject.initialCashState.author
