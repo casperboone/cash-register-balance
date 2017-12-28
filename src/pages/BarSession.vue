@@ -3,10 +3,13 @@
 
     <topbar>
       <div class="flex-1 text-center">
-        {{ barSession.type.name }} - {{ barSession.date.getDate() }}-{{ barSession.date.getMonth() }}-{{ barSession.date.getFullYear() }}
+        <div class="mb-1">{{ barSession.type.name }} - {{ barSession.date.getDate() }}-{{ barSession.date.getMonth() }}-{{ barSession.date.getFullYear() }}</div>
+        <em class="text-grey">Laatst opgeslagen: {{ lastSavedDateForHumans }}</em>
       </div>
       <div class="flex-1 text-right">
-        <em class="text-grey">Laatst opgeslagen: {{ lastSavedDateForHumans }}</em>
+        <button @click="back()" class="hover:text-grey-darker text-grey font-bold p-2 ml-2 rounded">
+          Sluiten
+        </button>
         <button @click="barSession.store(); lastSavedDate = new Date()" class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 ml-2 rounded">
           Opslaan
         </button>
@@ -39,6 +42,7 @@
 import TopBar from '@/components/TopBar'
 import CashStateForm from '@/components/CashStateForm'
 import Totals from '@/components/Totals'
+import { remote } from 'electron'
 
 export default {
   name: 'BarSession',
@@ -56,6 +60,14 @@ export default {
   computed: {
     lastSavedDateForHumans () {
       return this.lastSavedDate ? window.moment().fromNow() : 'nooit'
+    }
+  },
+  methods: {
+    back () {
+      remote.dialog.showMessageBox({
+        message: 'Weet je zeker dat je terug wilt gaan naar het overzicht?',
+        buttons: ['Niet opslaan en teruggaan', 'Annuleren']
+      }, (buttonId) => { if (buttonId === 0) { this.$router.push('/') } })
     }
   }
 }
