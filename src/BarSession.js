@@ -2,7 +2,7 @@ import CashState from './CashState'
 import BarSessionFile from './BarSessionFile'
 
 export default class BarSession {
-  constructor (file = new BarSessionFile()) {
+  constructor (type, date, file = BarSessionFile.fromTypeAndDate(type, date)) {
     this.initialCashState = new CashState()
     this.finalCashState = new CashState()
     this._effluentCashState = new CashState(false)
@@ -12,8 +12,8 @@ export default class BarSession {
 
     this.pinTerminalTotal = 0
 
-    this.type = undefined
-    this.date = new Date()
+    this.type = type
+    this.date = date
 
     this.file = file
   }

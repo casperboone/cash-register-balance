@@ -42,9 +42,6 @@ import Totals from '@/components/Totals'
 
 export default {
   name: 'BarSession',
-  mounted () {
-    console.log(window.test)
-  },
   components: {
     'topbar': TopBar,
     'cash-state-form': CashStateForm,

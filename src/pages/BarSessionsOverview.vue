@@ -1,23 +1,40 @@
 <template>
   <div>
     <topbar></topbar>
-    
+
     <div class="flex flex-wrap min-h-full py-8 w-3/4 m-auto">
       <div class="w-full md:w-2/3">
 
         <div class="mx-4 rounded shadow">
           <div class="bg-white px-8 py-4">
-            <h3 class="text-xl font-semibold text-grey-black">Ga verder met een bestaande sessie...</h3>
+            <h3 class="text-xl font-semibold text-grey-black">Ga verder met een bestaande sessie ...</h3>
           </div>
 
-          <div 
-            v-for="(file, i) in barSessionFiles" 
-            :key="file.filePath" 
-            :class="['px-8', 'py-2', i % 2 == 0 ? 'bg-grey-lighter' : 'bg-grey-lightest', 'border-b']"
-            v-text="file.filePath"
-            @click="loadSession(file)">
+          <paginate
+            name="barSessionFiles"
+            :list="barSessionFiles"
+            :per="8"
+            tag="div">
+            <div 
+              v-for="(file, i) in paginated('barSessionFiles')" 
+              :key="file.filePath" 
+              :class="['px-8', 'py-2', i % 2 == 0 ? 'bg-grey-lighter' : 'bg-grey-lightest', 'border-b', 'hover:bg-grey', 'hover:text-white', 'cursor-pointer']"
+              @click="loadSession(file)">
+              <strong>{{ formatDate(file.parseDate()) }}</strong> - {{ file.parseType().name }}
+            </div>
+          </paginate>
+
+          <div class="px-8 py-4 bg-grey-lighter text-center">
+            <paginate-links for="barSessionFiles" :limit="3" :show-step-links="true"
+              :classes="{
+                'ul': ['inline-flex', 'list-reset', 'shadow', 'bg-white', 'cursor-pointer'],
+                '.left-arrow > a': ['block', 'hover:text-white', 'hover:bg-grey', 'px-3', 'py-2'],
+                '.right-arrow > a': ['block', 'hover:text-white', 'hover:bg-grey', 'border-l', 'border-grey-light', 'px-3', 'py-2'],
+                '.number > a': ['block', 'hover:text-white', 'hover:bg-grey', 'border-l', 'border-grey-light', 'px-3', 'py-2'],
+                '.ellipses > a': ['block', 'hover:text-white', 'hover:bg-grey', 'border-l', 'border-grey-light', 'px-3', 'py-2'],
+              }"
+              ></paginate-links>
           </div>
-          
         </div>
 
       </div>
@@ -56,6 +73,7 @@ import BarSessionType from '../BarSessionType'
 import CashStateForm from '@/components/CashStateForm'
 import Totals from '@/components/Totals'
 import Datepicker from 'vuejs-datepicker'
+import moment from 'moment'
 
 export default {
   name: 'BarSession',
@@ -70,6 +88,7 @@ export default {
 
     return {
       barSessionFiles: BarSessionFile.all(),
+      paginate: ['barSessionFiles'],
       types: types,
       createForm: {
         type: types[0],
@@ -79,9 +98,7 @@ export default {
   },
   methods: {
     createSession () {
-      this.$parent.currentSession = new BarSession()
-      this.$parent.currentSession.type = this.createForm.type
-      this.$parent.currentSession.date = this.createForm.date
+      this.$parent.currentSession = new BarSession(this.createForm.type, this.createForm.date)
 
       this.$router.push('barsession')
     },
@@ -89,7 +106,21 @@ export default {
       this.$parent.currentSession = file.read()
 
       this.$router.push('barsession')
+    },
+    formatDate (date) {
+      return moment(date).format('DD-MM-YYYY')
     }
   }
 }
 </script>
+
+<style lang="postcss">
+ul.paginate-links > li.active > a {
+  background-color: #b9ccd6;
+  color: white;
+}
+ul.paginate-links > li.disabled > a {
+  color: #9babb4;
+  cursor: not-allowed;
+}
+</style>

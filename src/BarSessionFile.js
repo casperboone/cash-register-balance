@@ -10,14 +10,22 @@ const userDataPath = path.join(remote.app.getPath('userData'))
 const prefix = 'session'
 
 export default class BarSessionFile {
-  constructor (filePath = this.generateFilePath()) {
+  constructor (filePath) {
     this.filePath = filePath
+  }
+
+  static fromTypeAndDate (type, date) {
+    const filePath = uniqueFilename(userDataPath, prefix + '-' + date.getTime() + '-' + type.id) + '.json'
+
+    return new BarSessionFile(filePath)
   }
 
   static all () {
     return fs.readdirSync(userDataPath)
       .filter(file => file.startsWith(prefix))
       .map(file => new BarSessionFile(path.join(userDataPath, file)))
+      .sort()
+      .reverse()
   }
 
   store (barSession) {
@@ -28,10 +36,10 @@ export default class BarSessionFile {
     const fileContents = fs.readFileSync(this.filePath, 'utf8')
     const rawObject = JSON.parse(fileContents)
 
-    const barSession = new BarSession(this)
+    const date = new Date(rawObject.date)
+    const type = BarSessionType.getById(rawObject.type.id)
 
-    barSession.date = new Date(rawObject.date)
-    barSession.type = BarSessionType.getById(rawObject.type.id)
+    const barSession = new BarSession(date, type, this)
 
     barSession.initialCashState.bills = rawObject.initialCashState.bills.map(bill => new Bill(bill.amount, bill.count))
     barSession.initialCashState.author = rawObject.initialCashState.author
@@ -53,7 +61,15 @@ export default class BarSessionFile {
     return barSession
   }
 
-  generateFilePath () {
-    return uniqueFilename(userDataPath, prefix) + '.json'
+  parseType () {
+    const parts = path.basename(this.filePath).split('-')
+
+    return BarSessionType.getById(parts[2])
+  }
+
+  parseDate () {
+    const parts = path.basename(this.filePath).split('-')
+
+    return new Date(parseInt(parts[1]))
   }
 }

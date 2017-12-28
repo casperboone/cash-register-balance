@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import Vue2Filters from 'vue2-filters'
 import VueNumeric from 'vue-numeric'
+import VuePaginate from 'vue-paginate'
 import moment from 'moment'
 import App from './App'
 import router from './router'
@@ -11,6 +12,7 @@ Vue.config.productionTip = false
 
 Vue.use(Vue2Filters)
 Vue.use(VueNumeric)
+Vue.use(VuePaginate)
 
 /* eslint-disable no-new */
 new Vue({
