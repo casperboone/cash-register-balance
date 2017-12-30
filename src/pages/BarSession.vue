@@ -1,6 +1,5 @@
 <template>
-  <div class="flex flex-wrap min-h-full">
-
+  <span>
     <topbar>
       <div class="flex-1 text-center">
         <div class="mb-1">{{ barSession.type.name }} - {{ barSession.date.getDate() }}-{{ barSession.date.getMonth() }}-{{ barSession.date.getFullYear() }}</div>
@@ -15,30 +14,45 @@
         </button>
       </div>
     </topbar>
+  
+    <div class="flex flex-wrap min-h-full">
+      <div class="w-full md:w-2/3 py-8">
+        <div class="mx-4">
+            
+            <div class="mx-4 rounded shadow overflow-hidden">
+              <div class="bg-white">
+                <div class="-mb-px flex justify-between">
+                    <a 
+                      v-for="cashStateForm in cashStateForms"
+                      :key="cashStateForm.title"
+                      :class="[cashStateForm.visible ? 'text-teal-dark' : 'text-grey-dark', cashStateForm.visible ? 'border-teal-dark' : 'border-transparent', 'no-underline', 'border-b-2', 'text-lg', 'tracking-wide', 'font-semibold', 'py-3', 'px-8']" 
+                      @click="setVisibleForm(cashStateForm)"
+                      href="#">
+                      {{ cashStateForm.title }}
+                    </a>
+                </div>
+              </div>
+              <cash-state-form 
+                v-for="cashStateForm in cashStateForms"
+                :key="cashStateForm.title"
+                v-show="cashStateForm.visible"
+                :cashState="cashStateForm.cashState()">
+              </cash-state-form>
+            </div>
+        </div>
 
-    <div class="w-full md:w-5/6 py-8">
-      <div class="flex flex-wrap mx-4">
-        <div class="w-full md:w-1/3">
-          <cash-state-form :cashState="barSession.initialCashState" title="Kas bij aanvang"></cash-state-form>
-        </div>
-        <div class="w-full md:w-1/3">
-          <cash-state-form :cashState="barSession.finalCashState" title="Kas na afloop"></cash-state-form>
-        </div>
-        <div class="w-full md:w-1/3">
-          <cash-state-form :cashState="barSession.effluentCashState()" title="Naar grijze kluis"></cash-state-form>
-        </div>
       </div>
 
+      <div class="w-full md:w-1/3 bg-grey-lighter shadow p-8">
+          <totals :barSession="barSession"></totals>
+      </div>
     </div>
-
-    <div class="w-full md:w-1/6 bg-grey-lighter shadow p-8">
-        <totals :barSession="barSession"></totals>
-    </div>
-
-  </div>
+  </span>
 </template>
 
 <script>
+import BarSession from '../BarSession'
+import BarSessionType from '../BarSessionType'
 import TopBar from '@/components/TopBar'
 import CashStateForm from '@/components/CashStateForm'
 import Totals from '@/components/Totals'
@@ -52,9 +66,28 @@ export default {
     'totals': Totals
   },
   data () {
+    let barSession = this.$parent.currentSession ? this.$parent.currentSession : new BarSession(BarSessionType.getById(0), new Date())
+
     return {
-      barSession: this.$parent.currentSession,
-      lastSavedDate: undefined
+      barSession: barSession,
+      lastSavedDate: undefined,
+      cashStateForms: [
+        {
+          title: 'Kas bij aanvang',
+          cashState: () => barSession.initialCashState,
+          visible: true
+        },
+        {
+          title: 'Kas na afloop',
+          cashState: () => barSession.finalCashState,
+          visible: false
+        },
+        {
+          title: 'Naar grijze kluis',
+          cashState: () => barSession.effluentCashState(),
+          visible: false
+        }
+      ]
     }
   },
   computed: {
@@ -68,6 +101,9 @@ export default {
         message: 'Weet je zeker dat je terug wilt gaan naar het overzicht?',
         buttons: ['Niet opslaan en teruggaan', 'Annuleren']
       }, (buttonId) => { if (buttonId === 0) { this.$router.push('/') } })
+    },
+    setVisibleForm (visibleForm) {
+      this.cashStateForms.forEach(form => (form.visible = form === visibleForm))
     }
   }
 }

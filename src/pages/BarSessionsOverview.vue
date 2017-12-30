@@ -2,7 +2,7 @@
   <div>
     <topbar></topbar>
 
-    <div class="flex flex-wrap min-h-full py-8 w-3/4 m-auto">
+    <div class="flex flex-wrap min-h-full py-8 px-4">
       <div class="w-full md:w-2/3">
 
         <div class="mx-4 rounded shadow">
