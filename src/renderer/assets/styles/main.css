@@ -1,0 +1,21 @@
+@tailwind preflight;
+
+body {
+    @apply bg-grey-light min-h-screen leading-normal
+}
+
+#app {
+    height: 100vh;
+}
+
+.form-input {
+    @apply appearance-none bg-grey-lighter text-grey-darker border rounded py-3 px-4
+}
+
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+@tailwind utilities;
