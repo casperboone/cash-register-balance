@@ -128,6 +128,18 @@ let rendererConfig = {
         ? path.resolve(__dirname, '../node_modules')
         : false
     }),
+    new HtmlWebpackPlugin({
+      filename: 'printer_worker.html',
+      template: path.resolve(__dirname, '../src/printer_worker.ejs'),
+      minify: {
+        collapseWhitespace: true,
+        removeAttributeQuotes: true,
+        removeComments: true
+      },
+      nodeModules: process.env.NODE_ENV !== 'production'
+        ? path.resolve(__dirname, '../node_modules')
+        : false
+    }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin()
   ],

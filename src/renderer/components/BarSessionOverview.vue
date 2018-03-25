@@ -62,6 +62,9 @@
         </div>
       </div>
     </div>
+
+    <button @click="print()">Print</button>
+
   </div>
 </template>
 
@@ -74,6 +77,7 @@ import CashStateForm from '@/components/CashStateForm'
 import Totals from '@/components/Totals'
 import Datepicker from 'vuejs-datepicker'
 import moment from 'moment'
+import { ipcRenderer } from 'electron'
 
 export default {
   name: 'BarSession',
@@ -109,6 +113,9 @@ export default {
     },
     formatDate (date) {
       return moment(date).format('DD-MM-YYYY')
+    },
+    print () {
+      ipcRenderer.send('print', "<table width='100%'><tr><td>Test</td><td align='right'>&euro; 1.45</td></td></table>")
     }
   }
 }
