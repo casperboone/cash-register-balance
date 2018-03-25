@@ -9,6 +9,8 @@ import VueNumeric from 'vue-numeric'
 import VuePaginate from 'vue-paginate'
 import moment from 'moment'
 
+import { remote } from 'electron'
+
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.config.productionTip = false
 
@@ -44,3 +46,11 @@ moment.updateLocale('nl', {
 })
 
 window.moment = moment
+
+document.addEventListener('keydown', e => {
+  if (e.which === 121 || e.which === 123) {
+    remote.getCurrentWindow().toggleDevTools()
+  } else if (e.which === 116) {
+    location.reload()
+  }
+})
