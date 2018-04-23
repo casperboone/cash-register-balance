@@ -87,13 +87,19 @@ export default {
   data () {
     const types = BarSessionType.all()
 
+    // Try to guess the correct type and date for the form based on the current datetime
+    const sixHoursInMillis = 6 * 60 * 60 * 1000
+    const day = new Date(Date.now() - sixHoursInMillis)
+    const weekDay = day.getDay()
+    const typeIndex = (weekDay > 1 && weekDay < 6 ? weekDay - 2 : 5)
+
     return {
       barSessionFiles: BarSessionFile.all(),
       paginate: ['barSessionFiles'],
       types: types,
       createForm: {
-        type: types[0],
-        date: new Date()
+        type: types[typeIndex],
+        date: day
       }
     }
   },
