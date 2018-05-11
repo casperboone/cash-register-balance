@@ -19,11 +19,7 @@ function createMainWindow () {
   /**
    * Initial window options
    */
-  mainWindow = new BrowserWindow({
-    height: 563,
-    useContentSize: true,
-    width: 1000
-  })
+  mainWindow = new BrowserWindow({ fullscreen: true })
 
   mainWindow.loadURL(winURL + '/index.html')
 
@@ -33,14 +29,9 @@ function createMainWindow () {
 }
 
 function createPrinterWorkerWindow () {
-  printerWorkerWindow = new BrowserWindow({
-    height: 563,
-    useContentSize: true,
-    width: 1000
-  })
+  printerWorkerWindow = new BrowserWindow()
   printerWorkerWindow.loadURL(winURL + '/printer_worker.html')
-  // printerWorkerWindow.hide();
-  printerWorkerWindow.webContents.openDevTools()
+  printerWorkerWindow.hide()
   printerWorkerWindow.on('closed', () => {
     printerWorkerWindow = null
   })
@@ -66,27 +57,10 @@ app.on('activate', () => {
   }
 })
 
-// const os = require('os')
-// const fs = require('fs')
-// const path = require('path')
 ipcMain.on('readyToPrint', (event) => {
-  // const pdfPath = path.join(os.tmpdir(), 'print.pdf')
-  // Use default printing options
-  // printerWorkerWindow.webContents.printToPDF({pageSize: {width: 72000, height: 210000}}, function (error, data) {
-  //   if (error) throw error
-  //   fs.writeFile(pdfPath, data, function (error) {
-  //     if (error) {
-  //       throw error
-  //     }
-  //     console.log(pdfPath)
-  //     event.sender.send('wrote-pdf', pdfPath)
-  //   })
-  // })
-  console.log('new printing yay')
-  printerWorkerWindow.webContents.print()
+  printerWorkerWindow.webContents.print({ silent: true })
 })
 
 ipcMain.on('print', (event, content) => {
-  console.log(content)
-  printerWorkerWindow.webContents.send('print', 'hoi' + content)
+  printerWorkerWindow.webContents.send('print', content)
 })

@@ -9,7 +9,8 @@
         <button @click="back()" class="hover:text-grey-darker text-grey font-bold p-2 ml-2 rounded">
           Sluiten
         </button>
-        <button @click="barSession.store(); lastSavedDate = new Date()" class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 ml-2 rounded">
+        <bar-session-printer :bar-session="barSession" :cash-states="cashStateForms"></bar-session-printer>
+        <button @click="saveSession" class="bg-blue border border-blue hover:bg-blue-dark text-white font-bold py-2 px-4 ml-2 rounded">
           Opslaan
         </button>
       </div>
@@ -45,6 +46,8 @@
 
       <div class="w-full md:w-1/3 bg-grey-lighter shadow p-8">
           <totals :barSession="barSession"></totals>
+
+          <system-buttons @shutdown="saveSession" class="mt-16"></system-buttons>
       </div>
     </div>
   </span>
@@ -54,32 +57,20 @@
 import BarSession from '../BarSession'
 import BarSessionType from '../BarSessionType'
 import TopBar from '@/components/TopBar'
+import BarSessionPrinter from '@/components/BarSessionPrinter'
 import CashStateForm from '@/components/CashStateForm'
 import Totals from '@/components/Totals'
+import SystemButtons from '@/components/SystemButtons'
 import { remote } from 'electron'
-import escpos from 'escpos'
 
 export default {
   name: 'BarSession',
   components: {
     'topbar': TopBar,
+    'bar-session-printer': BarSessionPrinter,
     'cash-state-form': CashStateForm,
-    'totals': Totals
-  },
-  mounted () {
-    const serialDeviceOnWindows = new escpos.Serial('COM4')
-
-    const printer = new escpos.Printer(serialDeviceOnWindows)
-
-    serialDeviceOnWindows.open(function () {
-      console.log('printing')
-      printer
-        .font('a')
-        .align('ct')
-        .style('bu')
-        .size(1, 1)
-        .text('The quick brown fox jumps over the lazy dog')
-    })
+    'totals': Totals,
+    'system-buttons': SystemButtons
   },
   data () {
     let barSession = this.$parent.currentSession ? this.$parent.currentSession : new BarSession(BarSessionType.getById(0), new Date())
@@ -112,6 +103,10 @@ export default {
     }
   },
   methods: {
+    saveSession () {
+      this.barSession.store()
+      this.lastSavedDate = new Date()
+    },
     back () {
       remote.dialog.showMessageBox({
         message: 'Weet je zeker dat je terug wilt gaan naar het overzicht?',

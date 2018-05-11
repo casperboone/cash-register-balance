@@ -11,8 +11,6 @@
     </head>
     <body>
         <script>
-            // import { ipcRenderer } from 'electron'
-
             const ipcRenderer = require("electron").ipcRenderer;
 
             ipcRenderer.on("print", (event, content) => {
