@@ -8,6 +8,11 @@ export default new Router({
     {
       path: '/',
       name: 'landing-page',
+      component: require('@/components/BarSessionHome').default
+    },
+    {
+      path: '/overview',
+      name: 'overview',
       component: require('@/components/BarSessionOverview').default
     },
     {

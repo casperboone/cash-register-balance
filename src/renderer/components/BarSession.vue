@@ -110,8 +110,11 @@ export default {
     back () {
       remote.dialog.showMessageBox({
         message: 'Weet je zeker dat je terug wilt gaan naar het overzicht?',
-        buttons: ['Niet opslaan en teruggaan', 'Annuleren']
-      }, (buttonId) => { if (buttonId === 0) { this.$router.push('/') } })
+        buttons: ['Wijzigingen opslaan en teruggaan', 'Wijzigingen niet opslaan en teruggaan']
+      }, (buttonId) => {
+        if (buttonId === 0) { this.saveSession() }
+        this.$router.push('/')
+      })
     },
     setVisibleForm (visibleForm) {
       this.cashStateForms.forEach(form => (form.visible = form === visibleForm))
