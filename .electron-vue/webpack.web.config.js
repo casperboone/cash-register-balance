@@ -92,6 +92,16 @@ let webConfig = {
       },
       nodeModules: false
     }),
+    new HtmlWebpackPlugin({
+      filename: 'printer_worker.html',
+      template: path.resolve(__dirname, '../src/printer_worker.ejs'),
+      minify: {
+        collapseWhitespace: true,
+        removeAttributeQuotes: true,
+        removeComments: true
+      },
+      nodeModules: false
+    }),
     new webpack.DefinePlugin({
       'process.env.IS_WEB': 'true'
     }),

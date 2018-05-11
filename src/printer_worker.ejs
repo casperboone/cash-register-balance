@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <% if (htmlWebpackPlugin.options.nodeModules) { %>
+            <!-- Add `node_modules/` to global paths so `require` works properly in development -->
+            <script>
+              require('module').globalPaths.push('<%= htmlWebpackPlugin.options.nodeModules.replace(/\\/g, '\\\\') %>')
+            </script>
+        <% } %>
+    </head>
+    <body>
+        <script>
+            const ipcRenderer = require("electron").ipcRenderer;
+
+            ipcRenderer.on("print", (event, content) => {
+                document.body.innerHTML = content;
+
+                ipcRenderer.send("readyToPrint");
+            });
+        </script>
+    </body>
+</html>

@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 
 /**
  * Set `__static` path to static files in production
@@ -10,29 +10,37 @@ if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
-let mainWindow
+let mainWindow, printerWorkerWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
-  : `file://${__dirname}/index.html`
+  : `file://${__dirname}`
 
-function createWindow () {
+function createMainWindow () {
   /**
    * Initial window options
    */
-  mainWindow = new BrowserWindow({
-    height: 563,
-    useContentSize: true,
-    width: 1000
-  })
+  mainWindow = new BrowserWindow({ fullscreen: true })
 
-  mainWindow.loadURL(winURL)
+  mainWindow.loadURL(winURL + '/index.html')
 
   mainWindow.on('closed', () => {
     mainWindow = null
   })
 }
 
-app.on('ready', createWindow)
+function createPrinterWorkerWindow () {
+  printerWorkerWindow = new BrowserWindow()
+  printerWorkerWindow.loadURL(winURL + '/printer_worker.html')
+  printerWorkerWindow.hide()
+  printerWorkerWindow.on('closed', () => {
+    printerWorkerWindow = null
+  })
+}
+
+app.on('ready', () => {
+  createMainWindow()
+  createPrinterWorkerWindow()
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -42,6 +50,17 @@ app.on('window-all-closed', () => {
 
 app.on('activate', () => {
   if (mainWindow === null) {
-    createWindow()
+    createMainWindow()
   }
+  if (printerWorkerWindow === null) {
+    createPrinterWorkerWindow()
+  }
+})
+
+ipcMain.on('readyToPrint', (event) => {
+  printerWorkerWindow.webContents.print({ silent: true })
+})
+
+ipcMain.on('print', (event, content) => {
+  printerWorkerWindow.webContents.send('print', content)
 })
