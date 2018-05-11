@@ -29,7 +29,7 @@
         <tr>
           <td class="label">Kassa aangeslagen</td>
           <td class="mutable-value text-right">
-            <input v-if="mutable" type="text" v-model.number="barSession.theoreticalCashTotal" class="form-input bg-white w-32 text-right">
+            <money-input v-if="mutable" v-model.number="barSession.theoreticalCashTotal" class="form-input bg-white w-32 text-right"></money-input>
             <div v-else>&euro; {{ barSession.theoreticalCashTotal | currency('') }}</div>
           </td>
         </tr>
