@@ -45,13 +45,15 @@ export default class BarSession {
     state.bills[0].count = this.finalCashState.bills[0].count
     state.bills[1].count = this.finalCashState.bills[1].count
 
+    const totalCash = this.finalCashState.total() - this.finalCashState.emergencyCash
+
     // Starting with the 20 euro bills, put more in the grey safe until the remainder
     // is close to 200
     let nextBill = 2
-    while (this.finalCashState.total() - state.total() > 220) {
+    while (totalCash - state.total() > 220 && nextBill < state.bills.length) {
       state.bills[nextBill].count = Math.min(
         this.finalCashState.bills[nextBill].count,
-        Math.floor((this.finalCashState.total() - state.total() - 200) / state.bills[nextBill].amount)
+        Math.floor((totalCash - state.total() - 200) / state.bills[nextBill].amount)
       )
       nextBill++
     }
