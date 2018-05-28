@@ -3,7 +3,7 @@
     <topbar>
       <div class="flex-1 text-center">
         <div class="mb-1">{{ barSession.type.name }} - {{ moment(barSession.date).format('DD-MM-YYYY') }}</div>
-        <em class="text-grey">Laatst opgeslagen: {{ lastSavedDateForHumans }}</em>
+        <em class="text-grey">Laatst opgeslagen: {{ lastSavedDate ? moment(lastSavedDate).fromNow() : 'nooit' }}</em>
       </div>
       <div class="flex-1 text-right">
         <button @click="back()" class="hover:text-grey-darker text-grey font-bold p-2 ml-2 rounded">
@@ -96,11 +96,6 @@ export default {
           visible: false
         }
       ]
-    }
-  },
-  computed: {
-    lastSavedDateForHumans () {
-      return this.lastSavedDate ? window.moment(this.lastSavedDate).fromNow() : 'nooit'
     }
   },
   methods: {
