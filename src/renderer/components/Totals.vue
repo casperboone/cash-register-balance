@@ -27,11 +27,25 @@
         </tr>
 
         <tr>
-          <td class="label">Kassa aangeslagen</td>
+          <td class="label">Kassa - Personeel</td>
           <td class="mutable-value text-right">
-            <money-input v-if="mutable" v-model.number="barSession.theoreticalCashTotal" class="form-input bg-white w-32 text-right"></money-input>
-            <div v-else>&euro; {{ barSession.theoreticalCashTotal | currency('') }}</div>
+            <money-input v-if="mutable" v-model.number="barSession.theoreticalCashRegisterStaffTotal" class="form-input bg-white w-32 text-right"></money-input>
+            <div v-else>&euro; {{ barSession.theoreticalCashRegisterStaffTotal | currency('') }}</div>
           </td>
+        </tr>
+        <tr v-if="mutable">
+          <td colspan="2" class="label"><small>Bedrag bovenaan de bon achter 'Gratis'</small></td>
+        </tr>
+
+        <tr>
+          <td class="label">Kassa - Totaal</td>
+          <td class="mutable-value text-right">
+            <money-input v-if="mutable" v-model.number="barSession.theoreticalCashRegisterTotal" class="form-input bg-white w-32 text-right"></money-input>
+            <div v-else>&euro; {{ barSession.theoreticalCashRegisterTotal | currency('') }}</div>
+          </td>
+        </tr>
+        <tr v-if="mutable">
+          <td colspan="2" class="label"><small>Bedrag onderaan de bon achter 'Totals'</small></td>
         </tr>
 
         <tr>
@@ -40,7 +54,7 @@
 
         <tr>
           <td class="label">Totale omzet</td>
-          <td class="value text-right">&euro; {{ barSession.finalCashState.total() | currency('') }}</td>
+          <td class="value text-right">&euro; {{ barSession.revenueTotal() | currency('') }}</td>
         </tr>
         <tr>
           <td class="label">Naar grijze kluis</td>

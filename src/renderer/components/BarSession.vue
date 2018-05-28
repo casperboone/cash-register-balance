@@ -2,7 +2,7 @@
   <span>
     <topbar>
       <div class="flex-1 text-center">
-        <div class="mb-1">{{ barSession.type.name }} - {{ barSession.date.getDate() }}-{{ barSession.date.getMonth() }}-{{ barSession.date.getFullYear() }}</div>
+        <div class="mb-1">{{ barSession.type.name }} - {{ moment(barSession.date).format('DD-MM-YYYY') }}</div>
         <em class="text-grey">Laatst opgeslagen: {{ lastSavedDateForHumans }}</em>
       </div>
       <div class="flex-1 text-right">
@@ -76,6 +76,7 @@ export default {
     let barSession = this.$parent.currentSession ? this.$parent.currentSession : new BarSession(BarSessionType.getById(0), new Date())
 
     return {
+      moment: window.moment,
       barSession: barSession,
       lastSavedDate: undefined,
       cashStateForms: [
@@ -99,7 +100,7 @@ export default {
   },
   computed: {
     lastSavedDateForHumans () {
-      return this.lastSavedDate ? window.moment().fromNow() : 'nooit'
+      return this.lastSavedDate ? window.moment(this.lastSavedDate).fromNow() : 'nooit'
     }
   },
   methods: {

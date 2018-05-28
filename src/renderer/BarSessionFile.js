@@ -53,7 +53,8 @@ export default class BarSessionFile {
     barSession._effluentCashState.author = rawObject._effluentCashState.author
     barSession._effluentCashState.emergencyCash = rawObject._effluentCashState.emergencyCash
 
-    barSession.theoreticalCashTotal = rawObject.theoreticalCashTotal
+    barSession.theoreticalCashRegisterStaffTotal = rawObject.theoreticalCashRegisterStaffTotal
+    barSession.theoreticalCashRegisterTotal = rawObject.theoreticalCashRegisterTotal
     barSession.theoreticalPinTotal = rawObject.theoreticalPinTotal
 
     barSession.pinTerminalTotal = rawObject.pinTerminalTotal

@@ -5,7 +5,7 @@
         <div style="margin: 35px 0;">
             <strong>Barstaat</strong><br />
             {{ barSession.type.name }}<br />
-            {{ barSession.date.getDate() }}-{{ barSession.date.getMonth() }}-{{ barSession.date.getFullYear() }}
+            {{ moment(barSession.date).format('DD-MM-YYYY') }}
         </div>
 
         <div v-for="cashStateForm in cashStates" :key="cashStateForm.title">
@@ -50,6 +50,11 @@ import Totals from '@/components/Totals.vue'
 
 export default {
   props: ['barSession', 'cashStates'],
+  data () {
+    return {
+      moment: window.moment
+    }
+  },
   components: {
     'totals': Totals
   }

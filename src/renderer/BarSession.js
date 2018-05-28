@@ -7,7 +7,9 @@ export default class BarSession {
     this.finalCashState = new CashState()
     this._effluentCashState = new CashState(false)
 
-    this.theoreticalCashTotal = 0
+    this.theoreticalCashRegisterStaffTotal = 0
+    this.theoreticalCashRegisterTotal = 0
+
     this.theoreticalPinTotal = 0
 
     this.pinTerminalTotal = 0
