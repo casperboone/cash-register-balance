@@ -1,10 +1,11 @@
 <template>
-    <div>
-        <button @click="openPos" class="w-full bg-blue border border-blue hover:bg-blue-dark text-white font-bold p-4 rounded">
-          Open Kassa
-        </button>
-        <button @click="shutdown" class="w-full bg-red-light border border-red hover:bg-red text-white font-bold p-4 mt-4 rounded">
+    <div class="w-full flex items-stretch">
+        <button @click="shutdown" class="flex-1 bg-red-light border border-red hover:bg-red text-white font-bold p-4 rounded mr-4">
           Systeem Afsluiten
+        </button>
+
+        <button @click="openPos" class="flex-1 bg-blue border border-blue hover:bg-blue-dark text-white font-bold p-4 rounded">
+          Open Kassa
         </button>
     </div>
 </template>

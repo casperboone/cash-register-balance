@@ -47,7 +47,7 @@
       <div class="w-full md:w-1/3 bg-grey-lighter shadow p-8">
           <totals :barSession="barSession"></totals>
 
-          <system-buttons @shutdown="saveSession" @openPos="saveSession" class="mt-16"></system-buttons>
+          <system-buttons @shutdown="saveSession" @openPos="saveSession" class="mt-4"></system-buttons>
       </div>
     </div>
   </span>
