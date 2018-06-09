@@ -2,11 +2,13 @@
   <div class="cash-state-form">
       <div class="px-8 py-4 bg-grey-lighter">
         <div class="text-center">
-          <input :disabled="!cashState.editable" type="text" v-model="cashState.author" placeholder="Ingevuld door: Voornaam Achternaam" class="form-input bg-white mt-1 block w-full text-center">
+          <input :disabled="!cashState.editable" type="text" v-model="cashState.author" placeholder="Ingevuld door: Voornaam Achternaam" :class="'form-input mt-1 block w-full text-center ' + (cashState.editable ? 'bg-white' : 'py-0')">
         </div>
       </div>
 
       <div class="p-8 bg-grey-lightest">
+
+        <div v-if="!cashState.editable" class="bg-red  bg-teal text-white rounded px-4 py-2 -mt-4 mb-4"><strong>Let op:</strong> Deze informatie kan niet worden bewerkt.</div>
 
         <div class="grid">
           <div v-for="bill in cashState.bills" :key="bill.amount">
