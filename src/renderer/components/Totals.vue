@@ -21,10 +21,6 @@
             <div v-else>&euro; {{ barSession.pinTerminalTotal | currency('') }}</div>
           </td>
         </tr>
-        <tr>
-          <td class="label">Opbrengst</td>
-          <td class="value text-right">&euro; {{ barSession.revenueTotal() | currency('') }}</td>
-        </tr>
 
         <tr>
           <td class="label">Kassa - Personeel</td>
@@ -49,11 +45,16 @@
         </tr>
 
         <tr>
+          <td class="label">Totale omzet volgens kassa</td>
+          <td class="value text-right">&euro; {{ barSession.theoreticalCashRegisterRevenue() | currency('') }}</td>
+        </tr>
+
+        <tr>
           <td class="label" colspan="2"></td>
         </tr>
 
         <tr>
-          <td class="label">Totale omzet</td>
+          <td class="label">Daadwerkelijke totale omzet</td>
           <td class="value text-right">&euro; {{ barSession.revenueTotal() | currency('') }}</td>
         </tr>
         <tr>

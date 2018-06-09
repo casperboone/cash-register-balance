@@ -20,6 +20,10 @@ export default class BarSession {
     this.file = file
   }
 
+  theoreticalCashRegisterRevenue () {
+    return this.theoreticalCashRegisterTotal - this.theoreticalCashRegisterStaffTotal
+  }
+
   cashDifferenceTotal () {
     return this.finalCashState.total() - this.initialCashState.total()
   }
