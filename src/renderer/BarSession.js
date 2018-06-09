@@ -14,6 +14,7 @@ export default class BarSession {
 
     this.type = type
     this.date = date
+    this.editable = true
 
     this.file = file
   }

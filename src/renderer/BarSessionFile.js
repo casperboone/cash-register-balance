@@ -41,13 +41,19 @@ export default class BarSessionFile {
 
     const barSession = new BarSession(type, date, this)
 
+    const editable = date.toString() === (new Date(Date.now() - 12 * 60 * 60 * 1000).toString())
+
+    barSession.editable = editable
+
     barSession.initialCashState.bills = rawObject.initialCashState.bills.map(bill => new Bill(bill.amount, bill.count))
     barSession.initialCashState.author = rawObject.initialCashState.author
     barSession.initialCashState.emergencyCash = rawObject.initialCashState.emergencyCash
+    barSession.initialCashState.editable = editable
 
     barSession.finalCashState.bills = rawObject.finalCashState.bills.map(bill => new Bill(bill.amount, bill.count))
     barSession.finalCashState.author = rawObject.finalCashState.author
     barSession.finalCashState.emergencyCash = rawObject.finalCashState.emergencyCash
+    barSession.finalCashState.editable = editable
 
     barSession._effluentCashState.bills = rawObject._effluentCashState.bills.map(bill => new Bill(bill.amount, bill.count))
     barSession._effluentCashState.author = rawObject._effluentCashState.author
