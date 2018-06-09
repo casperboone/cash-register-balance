@@ -31,7 +31,9 @@
                     <td style="text-align: right; border-top: 1px solid;">&euro; {{ grossState.total() - subtractState.total() | currency('') }}</td>
                 </tr>
             </table>
-
+            <br />
+            <br />
+            <strong>LET OP: Voeg deze bon bij kassalade</strong>
     </div>
 </template>
 
