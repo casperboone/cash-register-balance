@@ -17,7 +17,7 @@
       <tr>
         <td class="text-grey-darker my-2">Totaal PIN</td>
         <td class="py-2 text-right">
-          <money-input v-model.number="barSession.pinTerminalTotal" class="form-input bg-white w-32 text-right"></money-input>
+          <money-input :disabled="!barSession.editable"  v-model.number="barSession.pinTerminalTotal" class="form-input bg-white w-32 text-right"></money-input>
         </td>
       </tr>
       <tr>
@@ -32,7 +32,7 @@
 
       <tr>
         <td class="text-grey-darker my-2">Kassa aangeslagen</td>
-        <td class="py-2 text-right"><input type="text" v-model.number="barSession.theoreticalCashTotal" class="form-input bg-white w-32 text-right"></td>
+        <td class="py-2 text-right"><input :disabled="!barSession.editable" type="text" v-model.number="barSession.theoreticalCashTotal" class="form-input bg-white w-32 text-right"></td>
       </tr>
 
       <tr>
