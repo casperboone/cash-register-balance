@@ -21,7 +21,9 @@ export default {
   methods: {
     print () {
       ipcRenderer.send('print', this.$refs.ticket.$el.innerHTML)
-      ipcRenderer.send('print', this.$refs.ticketCashSpecification.$el.innerHTML)
+      setTimeout(() => {
+        ipcRenderer.send('print', this.$refs.ticketCashSpecification.$el.innerHTML)
+      }, 2000)
     }
   }
 }
