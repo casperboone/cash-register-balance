@@ -7,7 +7,7 @@
 
         <div class="mx-4 rounded shadow">
           <div class="bg-white px-8 py-4">
-            <h3 class="text-xl font-semibold text-grey-black">Ga verder met een bestaande sessie ...</h3>
+            <h3 class="text-xl font-semibold text-grey-black">Ga verder met de vorige sessie ...</h3>
           </div>
 
           <div v-if="barSessionFiles.empty">
