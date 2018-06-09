@@ -1,6 +1,6 @@
 <template>
     <div class="w-full flex items-stretch">
-        <button @click="shutdown" class="flex-1 bg-red-light border border-red hover:bg-red text-white font-bold p-4 rounded mr-4">
+        <button @click="shutdown" class="flex-1 border border-red hover:bg-red hover:text-white text-red font-bold p-4 rounded mr-4">
           Systeem Afsluiten
         </button>
 

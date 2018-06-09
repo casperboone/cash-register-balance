@@ -12,7 +12,7 @@
           <div v-for="bill in cashState.bills" :key="bill.amount">
             <div class="flex justify-between mb-3 items-center">
               <div class="flex-auto">
-                <input :disabled="!cashState.editable" type="text" v-model.number="bill.count" class="form-input w-16" @click="checkAmountsAvailable()" @keydown="checkAmountsAvailable()" @change.native="checkAmountsAvailable()">  x &euro; {{ bill.amount | currency('') }}
+                <input :disabled="!cashState.editable" type="text" v-model.number="bill.count" :class="(cashState.editable ? ['form-input', 'w-16'] : ['form-input-disabled', 'w-16'])" @click="checkAmountsAvailable()" @keydown="checkAmountsAvailable()" @change.native="checkAmountsAvailable()">  x &euro; {{ bill.amount | currency('') }}
               </div>
               <div class="flex-auto text-right pr-3">&euro; {{ bill.total() | currency('') }}</div>
             </div>

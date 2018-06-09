@@ -9,7 +9,12 @@ body {
 }
 
 .form-input {
-    @apply appearance-none bg-grey-lighter text-grey-darker border rounded py-3 px-4
+    @apply appearance-none bg-grey-lighter text-grey-darker rounded py-3 px-4
+}
+
+
+.form-input-disabled {
+    @apply appearance-none bg-grey-lightest text-grey-darker rounded py-3 px-4
 }
 
 input::-webkit-inner-spin-button {
