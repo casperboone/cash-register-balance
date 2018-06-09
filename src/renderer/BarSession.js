@@ -41,7 +41,7 @@ export default class BarSession {
   }
 
   effluentCashState () {
-    let state = this._effluentCashState
+    let state = new CashState(false)
 
     state.author = this.finalCashState.author
 
