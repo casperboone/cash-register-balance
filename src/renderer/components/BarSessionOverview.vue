@@ -49,7 +49,7 @@
             <datepicker v-model="createForm.date" :monday-first="true" format="dd-MM-yyyy" input-class="form-input bg-white w-full"></datepicker>
 
             <div class="relative mt-4">
-                <select v-model="createForm.type" class="form-input bg-white w-full">
+              <select v-model="createForm.type" class="form-input bg-white w-full">
                 <option v-for="type in types" :key="type.id" v-text="type.name" :value="type"></option>
               </select>
               <div class="pointer-events-none absolute pin-y pin-r flex items-center px-2 text-grey-darker">
