@@ -44,11 +44,21 @@ export default {
   props: ['barSession', 'cashStates'],
   data () {
     return {
-      moment: window.moment,
-      grossState: this.cashStates[1].cashState(),
-      subtractState: this.cashStates[2].cashState(),
-      grossBills: this.cashStates[1].cashState().bills,
-      subtractBills: this.cashStates[2].cashState().bills
+      moment: window.moment
+    }
+  },
+  computed: {
+    grossState () {
+      return this.cashStates[1].cashState()
+    },
+    subtractState () {
+      return this.cashStates[2].cashState()
+    },
+    grossBills () {
+      return this.cashStates[1].cashState().bills
+    },
+    subtractBills () {
+      return this.cashStates[2].cashState().bills
     }
   },
   components: {
