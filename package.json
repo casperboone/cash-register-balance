@@ -25,6 +25,7 @@
   "dependencies": {
     "autoprefixer": "^8.1.0",
     "cssnano": "^3.10.0",
+    "escpos": "^2.4.9",
     "moment": "^2.21.0",
     "postcss-cssnext": "^3.1.0",
     "postcss-import": "^11.1.0",

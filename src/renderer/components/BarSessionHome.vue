@@ -62,6 +62,8 @@ import Totals from '@/components/Totals'
 import Datepicker from 'vuejs-datepicker'
 import moment from 'moment'
 
+const escpos = require('escpos')
+
 export default {
   name: 'BarSession',
   components: {
@@ -69,6 +71,21 @@ export default {
     'cash-state-form': CashStateForm,
     'totals': Totals,
     'datepicker': Datepicker
+  },
+  mounted () {
+    const device = new escpos.Serial('COM4')
+    const options = { encoding: 'GB18030' }
+    const printer = new escpos.Printer(device, options)
+
+    device.open(function () {
+      printer
+        .font('a')
+        .align('ct')
+        .style('bu')
+        .size(1, 1)
+        .text('The quick brown fox jumps over the lazy dog')
+        .barcode('1234567', 'EAN8')
+    })
   },
   data () {
     const types = BarSessionType.all()
