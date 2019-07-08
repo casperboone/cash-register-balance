@@ -4,7 +4,7 @@
         <div class="flex-1">
             <div class="flex items-center">
                 <img src="../assets/images/logo.png" class="h-12 " />
-                <h1 class="flex-2 pl-4 text-4xl">Barstaat</h1>
+                <h1 class="flex-2 pl-4 text-3xl">Cash Register Balance</h1>
             </div>
         </div>
         

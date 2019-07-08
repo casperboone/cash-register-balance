@@ -11,16 +11,6 @@ export default new Router({
       component: require('@/components/BarSessionHome').default
     },
     {
-      path: '/overview',
-      name: 'overview',
-      component: require('@/components/BarSessionOverview').default
-    },
-    {
-      path: '/barsession',
-      name: 'BarSession',
-      component: require('@/components/BarSession').default
-    },
-    {
       path: '*',
       redirect: '/'
     }

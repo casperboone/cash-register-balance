@@ -1,71 +1,57 @@
-import CashState from './CashState'
+import BarSessionType from './BarSessionType'
+import CashDrawerContents from './CashDrawerContents'
+import SafeContents from './SafeContents'
 import BarSessionFile from './BarSessionFile'
 
 export default class BarSession {
-  constructor (type, date, file = BarSessionFile.fromTypeAndDate(type, date)) {
-    this.initialCashState = new CashState()
-    this.finalCashState = new CashState()
-    this._effluentCashState = new CashState(false)
+  constructor () {
+    this.date = new Date()
+    this.type = BarSessionType.getDefaultForDate(this.date)
+    this.originalAuthorName = ''
+    this.closingAuthorName = ''
 
-    this.theoreticalCashRegisterStaffTotal = 0
-    this.theoreticalCashRegisterTotal = 0
+    this.cashAtStart = new CashDrawerContents()
+    this.cashAtEnd = new CashDrawerContents()
+    this.cashToSafe = new SafeContents(this.cashAtEnd) // Serialization note: SafeContents has extra fields
 
-    this.theoreticalPinTotal = 0
+    this.posDataRetrieved = false
+    this.posCashTotal = 0.0
+    this.posPinTotal = 0.0
+    this.posFreeTotal = 0.0
 
-    this.pinTerminalTotal = 0
+    this.actualPinTotal = 0.0
 
-    this.type = type
-    this.date = date
-
-    this.file = file
+    this.file = undefined
   }
 
-  theoreticalCashRegisterRevenue () {
-    return this.theoreticalCashRegisterTotal - this.theoreticalCashRegisterStaffTotal
-  }
-
-  cashDifferenceTotal () {
-    return this.finalCashState.total() - this.initialCashState.total()
-  }
-
-  revenueTotal () {
-    return this.cashDifferenceTotal() + this.pinTerminalTotal
-  }
-
-  effluentTotal () {
-    return this.effluentCashState().total()
-  }
-
-  changeSafeTotal () {
-    return this.finalCashState.total() - this.effluentTotal()
-  }
-
-  effluentCashState () {
-    let state = new CashState(false)
-
-    state.author = this.finalCashState.author
-
-    // Always put all 50 and 100 euro bills in the grey safe
-    state.bills[0].count = this.finalCashState.bills[0].count
-    state.bills[1].count = this.finalCashState.bills[1].count
-
-    const totalCash = this.finalCashState.total() - this.finalCashState.emergencyCash
-
-    // Starting with the 20 euro bills, put more in the grey safe until the remainder
-    // is close to 200
-    let nextBill = 2
-    while (totalCash - state.total() > 220 && nextBill < state.bills.length) {
-      state.bills[nextBill].count = Math.min(
-        this.finalCashState.bills[nextBill].count,
-        Math.floor((totalCash - state.total() - 200) / state.bills[nextBill].amount)
-      )
-      nextBill++
+  saveToDisk () {
+    if (!this.file) {
+      this.file = BarSessionFile.fromTypeAndDate(this.type, this.date)
     }
-
-    return state
+    this.file.store(this)
   }
 
-  store () {
-    this.file.store(this)
+  static fromFile (file, contents) {
+    const barSession = new BarSession()
+
+    barSession.date = new Date(contents.date)
+    barSession.type = BarSessionType.getById(contents.type.id)
+    barSession.originalAuthorName = contents.originalAuthorName
+    barSession.closingAuthorName = contents.closingAuthorName
+
+    barSession.cashAtStart = CashDrawerContents.fromFile(contents.cashAtStart)
+    barSession.cashAtEnd = CashDrawerContents.fromFile(contents.cashAtEnd)
+    barSession.cashToSafe = SafeContents.fromFile(barSession.cashAtEnd, contents.cashToSafe)
+
+    barSession.posDataRetrieved = contents.posDataRetrieved
+    barSession.posCashTotal = contents.posCashTotal
+    barSession.posPinTotal = contents.posPinTotal
+    barSession.posFreeTotal = contents.posFreeTotal
+
+    barSession.actualPinTotal = contents.actualPinTotal
+
+    barSession.file = file
+
+    return barSession
   }
 }

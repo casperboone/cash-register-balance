@@ -1,119 +1,134 @@
 <template>
-  <div>
-    <topbar></topbar>
-
-    <div class="flex flex-wrap min-h-full py-8 px-4">
-      <div class="w-full md:w-2/3">
-
-        <div class="mx-4 rounded shadow">
-          <div class="bg-white px-8 py-4">
-            <h3 class="text-xl font-semibold text-grey-black">Ga verder met de vorige sessie ...</h3>
-          </div>
-
-          <div v-if="barSessionFiles.empty">
-            <p>Er zijn geen vorige barsessies gevonden</p>
-          </div>
-          <div v-else>
-            <div 
-              :class="['px-8', 'py-3', 'bg-grey-lighter', 'border-b', 'hover:bg-grey', 'hover:text-white', 'cursor-pointer']"
-              @click="loadSession(barSessionFiles[0])">
-              <strong>{{ formatDate(barSessionFiles[0].parseDate()) }}</strong> - {{ barSessionFiles[0].parseType().name }}
-            </div>
-          </div> 
-
-        </div>
-
+  <div class="h-full flex flex-col">
+    <top-bar>
+      <div class="text-right">
+        <div class="font-bold text-xl mb-1">{{ barSession.type.name }}</div>
+        <div class="text-xs text-grey-dark">{{ barSession.date | moment('DD MMM YYYY') }}</div>
       </div>
-      <div class="w-full md:w-1/3">
-        
-        <div class="mx-4 rounded shadow">
-          <div class="bg-white px-8 py-4">
-            <h3 class="text-xl font-semibold text-grey-black">... of creeër een nieuwe</h3>
-          </div>
+    </top-bar>
 
-          <div class="p-8 bg-grey-lighter">
-            <datepicker v-model="createForm.date" :monday-first="true" format="dd-MM-yyyy" input-class="form-input bg-white w-full"></datepicker>
-
-            <div class="relative mt-4">
-                <select v-model="createForm.type" class="form-input bg-white w-full">
-                <option v-for="type in types" :key="type.id" v-text="type.name" :value="type"></option>
-              </select>
-              <div class="pointer-events-none absolute pin-y pin-r flex items-center px-2 text-grey-darker">
-                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-              </div>
-            </div>
-
-            <button class="mt-4 bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded w-full" @click="createSession()">Ga verder</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <form-wizard class="pt-4 px-8" title="" subtitle="" color="#103d60" shape="circle" @on-change="saveSession">
+      <tab-content title="Session Details" :before-change="()=>validateStep('session-details')">
+        <help-note v-if="currentSessionIsAPreviousSession" class="bg-yellow-lighter"><strong>Please note:</strong> You're continuing with the previous session. If this was unintentional, <a @click="createNewSession" class="bg-yellow-dark p-2 rounded">click here</a> to start a new session.</help-note>
+        <session-details :barSession="barSession" ref="session-details"></session-details>
+        <button v-if="!currentSessionIsAPreviousSession" @click="continueWithPreviousSession" class="border border-black rounded mt-4 py-2 px-4 text-sm">&laquo; Continue with previous session</button>
+      </tab-content>
+      <tab-content title="Cash at Start">
+          <cash-form title="Cash at Start" :cashDrawerContents="barSession.cashAtStart" ref="cash-at-start"></cash-form>
+      </tab-content>
+      <tab-content title="Start POS" :before-change="()=>updateComponent('totals')">
+          <start-pos :barSession="barSession" ref="start-pos"></start-pos>
+      </tab-content>
+      <tab-content title="Totals" :before-change="()=>validateStep('totals')">
+          <totals :barSession="barSession" ref="totals"></totals>
+      </tab-content>
+      <tab-content title="Cash at End" :before-change="()=>updateComponent('cash-to-safe')">
+          <cash-form title="Cash at End" :cashDrawerContents="barSession.cashAtEnd" ref="cash-at-end"></cash-form>
+      </tab-content>
+      <tab-content title="Cash to Safe">
+          <cash-form title="Cash to Safe" :cashDrawerContents="barSession.cashToSafe" ref="cash-to-safe">
+            <help-note class="help-note-small">
+               We have to make sure there's around <strong>200</strong> euros left in the cash drawer. If this is not the case, we have to put money in the grey safe (in an envelope).
+            </help-note>
+            <help-note class="help-note-small">
+              To help you, a prediction of which bank notes / coints need to go to the grey safe is made. The amounts can be adjusted if you deem this necessary.
+            </help-note>
+            <help-note class="help-note-small mb-0">
+              Remaining amount of money in the cash drawer with the current amounts on the left:
+              <div class="text-lg text-center py-2">{{ barSession.cashToSafe.remainingCashInDrawer() | currency }}*</div>
+              <small>* excluding emergency cash</small>
+            </help-note>
+          </cash-form>
+      </tab-content>
+      <tab-content title="Review / Print">
+        <review :barSession="barSession"></review>
+      </tab-content>
+      <tab-content title="Close">
+          <close></close>
+      </tab-content>
+    </form-wizard>
 
   </div>
 </template>
 
 <script>
 import TopBar from '@/components/TopBar'
-import BarSession from '../BarSession'
-import BarSessionFile from '../BarSessionFile'
-import BarSessionType from '../BarSessionType'
-import CashStateForm from '@/components/CashStateForm'
-import Totals from '@/components/Totals'
-import Datepicker from 'vuejs-datepicker'
-import moment from 'moment'
+import {FormWizard, TabContent} from 'vue-form-wizard'
+import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+import BarSession from '@/BarSession'
+import BarSessionFile from '@/BarSessionFile'
+import SessionDetails from '@/components/steps/SessionDetails'
+import CashForm from '@/components/steps/CashForm'
+import StartPos from '@/components/steps/StartPos'
+import Totals from '@/components/steps/Totals'
+import Review from '@/components/steps/Review'
+import Close from '@/components/steps/Close'
 
 export default {
   name: 'BarSession',
   components: {
-    'topbar': TopBar,
-    'cash-state-form': CashStateForm,
-    'totals': Totals,
-    'datepicker': Datepicker
+    TopBar,
+    FormWizard,
+    TabContent,
+    SessionDetails,
+    CashForm,
+    StartPos,
+    Totals,
+    Review,
+    Close
   },
   data () {
-    const types = BarSessionType.all()
-
-    // Try to guess the correct type and date for the form based on the current datetime
-    const sixHoursInMillis = 6 * 60 * 60 * 1000
-    const day = new Date(Date.now() - sixHoursInMillis)
-    const weekDay = day.getDay()
-    const typeIndex = (weekDay > 1 && weekDay < 6 ? weekDay - 2 : 5)
-
     return {
-      barSessionFiles: BarSessionFile.all(),
-      paginate: ['barSessionFiles'],
-      types: types,
-      createForm: {
-        type: types[typeIndex],
-        date: day
-      }
+      barSession: new BarSession(),
+      previousSessionFile: BarSessionFile.all()[0],
+      currentSessionIsAPreviousSession: false
     }
   },
   methods: {
-    createSession () {
-      this.$parent.currentSession = new BarSession(this.createForm.type, this.createForm.date)
-
-      this.$router.push('barsession')
+    validateStep (name) {
+      return this.$refs[name].validate()
     },
-    loadSession (file) {
-      this.$parent.currentSession = file.read()
+    updateComponent (ref) {
+      this.$refs[ref].updateFromParent()
 
-      this.$router.push('barsession')
+      return true
     },
-    formatDate (date) {
-      return moment(date).format('DD-MM-YYYY')
+    saveSession (oldIndex, newIndex) {
+      if (newIndex > 0) {
+        this.barSession.saveToDisk()
+      }
+    },
+    continueWithPreviousSession () {
+      this.barSession = this.previousSessionFile.read()
+      this.currentSessionIsAPreviousSession = true
+    },
+    createNewSession () {
+      this.barSession = new BarSession()
+      this.currentSessionIsAPreviousSession = false
     }
   }
 }
 </script>
 
 <style lang="postcss">
-ul.paginate-links > li.active > a {
-  background-color: #b9ccd6;
-  color: white;
-}
-ul.paginate-links > li.disabled > a {
-  color: #9babb4;
-  cursor: not-allowed;
-}
+  .vue-form-wizard {
+    flex: 1!important;
+    display: flex!important;
+    flex-direction: column!important;
+  }
+  .vue-form-wizard .wizard-navigation {
+    flex: 1!important;
+  }
+  .vue-form-wizard .wizard-header {
+    padding: 0!important;
+  }
+  .vue-form-wizard.md .wizard-navigation .wizard-progress-with-circle {
+    left: -2rem!important;
+  }
+  .vue-form-wizard .wizard-icon-circle {
+    background-color: #f3f7f9!important;
+  }
+  .vue-form-wizard .wizard-nav-pills>li>a {
+    color: #596a73!important;
+  }
 </style>
