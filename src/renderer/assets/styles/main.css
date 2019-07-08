@@ -9,12 +9,34 @@ body {
 }
 
 .form-input {
-    @apply appearance-none bg-grey-lighter text-grey-darker rounded py-3 px-4
+    @apply appearance-none bg-white text-grey-darker rounded py-3 px-4
 }
-
 
 .form-input-disabled {
     @apply appearance-none bg-grey-lightest text-grey-darker rounded py-3 px-4
+}
+
+.form-input-error {
+    @apply border border-red-dark
+}
+
+.error {
+    @apply text-red-darker rounded bg-red-lighter mt-2 px-2 py-1 
+}
+
+.help-note {
+    @apply p-4 mb-2 bg-white rounded shadow text-grey-darkest 
+}
+
+.help-note-small {
+    @apply p-3 text-sm
+}
+
+.help-note-circle {
+    height: 1.5rem;
+    width: 1.5rem;
+    padding-top: 0.1rem;
+    @apply rounded-full border text-grey-light mr-2 mb-2 text-center font-bold text-sm absolute pin-r pin-b leading-tight border-grey-light
 }
 
 input::-webkit-inner-spin-button {

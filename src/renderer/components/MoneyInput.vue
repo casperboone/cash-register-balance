@@ -1,5 +1,5 @@
 <template>
-  <input type="number" v-model="displayValue" @blur="isInputActive = false" @focus="isInputActive = true" class="form-input">
+  <input type="number" v-model="displayValue" @blur="isInputActive = false" @focus="$event.target.select(); isInputActive = true" class="form-input text-right">
 </template>
 
 <script>
