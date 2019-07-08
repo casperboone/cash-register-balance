@@ -13,52 +13,43 @@
     </div>
 
     <div class="flex">
-      <div class="rounded shadow flex-1 bg-grey-lighter">
-        <div class="bg-white px-8 py-4">
-          <h3 class="text-xl font-semibold text-grey-black">PIN total</h3>
-        </div>
-        <div class="px-8 py-4 bg-grey-lighter">
-          <help-note>
-            Please close the session of the PIN device by pressing the lock button and entering the passcode.
-          </help-note>
-          <help-note class="mb-8">
-            The total transaction amount is now printed. Please fill this is in below.
-          </help-note>
-
-          <div class="flex justify-between items-center mb-2">
-            <div>PIN Total</div>
-            <div><money-input v-model="barSession.actualPinTotal" class="form-input" @focus="$event.target.select()"></money-input></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rounded shadow ml-4 flex-1">
+      <div class="rounded shadow mr-4 flex-1">
         <div class="bg-white px-8 py-4 flex">
-          <h3 class="text-xl font-semibold text-grey-black flex-1">POS totals</h3>
+          <h3 class="text-xl font-semibold text-grey-black flex-1">Review POS totals</h3>
           <button @click="refetchPosData()" class="border rounded px-2 text-sm">Refetch POS data</button>
         </div>
         <div class="px-8 py-4 bg-grey-lighter">
-          <help-note class="mb-4">
-            Please check if the totals of the POS software below are correct. If not, please correct it manually.
-          </help-note>
-
           <div class="flex justify-between items-center mb-2">
             <div>Cash Total</div>
-            <div><money-input v-model="barSession.posCashTotal"></money-input></div>
+            <div><money-input v-model="barSession.posCashTotal" :disabled="noManualPosTotals"></money-input></div>
           </div>
           <div class="flex justify-between items-center mb-2">
             <div>PIN Total</div>
-            <div><money-input v-model.number="barSession.posPinTotal"></money-input></div>
+            <div><money-input v-model.number="barSession.posPinTotal" :disabled="noManualPosTotals"></money-input></div>
           </div>
           <div class="flex justify-between items-center">
             <div>Free Total</div>
-            <div><money-input v-model.number="barSession.posFreeTotal"></money-input></div>
+            <div><money-input v-model.number="barSession.posFreeTotal" :disabled="noManualPosTotals"></money-input></div>
           </div>
 
           <div class="text-sm text-grey mt-2" v-if="unicenta">
             POS data from session closed at {{ this.unicenta.endDate | moment('YYYY-MM-DD HH:mm:ss') }}.
           </div>
+
+          <div class="mt-4">
+            <label>
+              <button :class="['checkbox', noManualPosTotals ? 'checkbox-checked' : '']" @click="noManualPosTotals = !noManualPosTotals">
+                <div class="checkmark" />
+              </button>
+              The POS totals are correct and do not need manual corrections
+            </label>
+          </div>
         </div>
+      </div>
+      <div>
+        <help-note class="mb-4 w-64">
+          Please check if the totals of the POS software below are correct. If this is not the case, uncheck the checkbox, and please correct it manually.
+        </help-note>
       </div>
     </div>
   </div>
@@ -75,7 +66,8 @@ export default {
   data () {
     return {
       unicenta: undefined,
-      blockFields: true
+      blockFields: true,
+      noManualPosTotals: true
     }
   },
   validations: {

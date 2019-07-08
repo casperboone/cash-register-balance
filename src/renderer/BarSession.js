@@ -13,9 +13,18 @@ export default class BarSession {
     this.posPinTotal = 0.0
     this.posFreeTotal = 0.0
 
-    this.actualPinTotal = 0.0
+    this.actualFixedPinTotal = 0.0
+    this.actualMobilePinTotal = 0.0
 
     this.file = undefined
+  }
+
+  actualTotal () {
+    return this.actualFixedPinTotal + this.actualMobilePinTotal
+  }
+
+  theoreticalTotal () {
+    return this.posCashTotal + this.posPinTotal
   }
 
   saveToDisk () {
@@ -38,7 +47,8 @@ export default class BarSession {
     barSession.posPinTotal = contents.posPinTotal
     barSession.posFreeTotal = contents.posFreeTotal
 
-    barSession.actualPinTotal = contents.actualPinTotal
+    barSession.actualFixedPinTotal = contents.actualFixedPinTotal
+    barSession.actualMobilePinTotal = contents.actualMobilePinTotal
 
     barSession.file = file
 

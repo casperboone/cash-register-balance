@@ -12,6 +12,10 @@ body {
     @apply appearance-none bg-white text-grey-darker rounded py-3 px-4
 }
 
+.form-input:disabled {
+    @apply bg-grey-light
+}
+
 .form-input-disabled {
     @apply appearance-none bg-grey-lightest text-grey-darker rounded py-3 px-4
 }
@@ -19,6 +23,23 @@ body {
 .form-input-error {
     @apply border border-red-dark
 }
+
+.checkbox {
+    @apply bg-grey w-6 h-6 mr-1 rounded align-middle
+}
+
+.checkbox-checked {
+    @apply bg-blue
+}
+
+.checkbox-checked .checkmark {
+    @apply m-auto;
+    width: 6px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
 
 .error {
     @apply text-red-darker rounded bg-red-lighter mt-2 px-2 py-1 
@@ -43,6 +64,14 @@ input::-webkit-inner-spin-button {
     /* display: none; <- Crashes Chrome on hover */
     -webkit-appearance: none;
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input:focus{
+    outline: rgb(52, 144, 220) auto 2px;  
+}
+
+button:focus{
+    outline: none;   
 }
 
 @tailwind utilities;

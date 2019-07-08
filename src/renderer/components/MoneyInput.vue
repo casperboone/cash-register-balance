@@ -1,10 +1,15 @@
 <template>
-  <input type="number" v-model="displayValue" @blur="isInputActive = false" @focus="$event.target.select(); isInputActive = true" class="form-input text-right">
+  <div class="relative">
+    <div class="absolute z-10 top-0 p-3 leading-tight text-grey">
+      &euro;
+    </div>
+    <input type="number" v-model="displayValue" @blur="isInputActive = false" @focus="$event.target.select(); isInputActive = true" class="form-input text-right" :disabled="disabled">
+  </div>
 </template>
 
 <script>
 export default {
-  props: ['value'],
+  props: ['value', 'disabled'],
   data: function () {
     return {
       isInputActive: false,
@@ -29,3 +34,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+input:before {
+  display: block;
+  content: '&euro;'
+}
+</style>

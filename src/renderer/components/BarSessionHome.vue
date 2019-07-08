@@ -13,17 +13,26 @@
         <session-details :barSession="barSession" ref="session-details"></session-details>
         <button v-if="!currentSessionIsAPreviousSession" @click="continueWithPreviousSession" class="border border-black rounded mt-4 py-2 px-4 text-sm">&laquo; Continue with previous session</button>
       </tab-content>
-      <tab-content title="Start POS" :before-change="()=>updateComponent('totals')">
+      <tab-content title="Open Terminals">
+          <open-terminals />
+      </tab-content>
+      <tab-content title="Start POS" :before-change="()=>updateComponent('pos-totals')">
           <start-pos :barSession="barSession" ref="start-pos"></start-pos>
       </tab-content>
-      <tab-content title="Totals" :before-change="()=>validateStep('totals')">
-          <totals :barSession="barSession" ref="totals"></totals>
+      <tab-content title="POS Totals" :before-change="()=>validateStep('pos-totals')">
+          <pos-totals :barSession="barSession" ref="pos-totals"></pos-totals>
+      </tab-content>
+      <tab-content title="Close Terminals">
+          <close-terminals />
+      </tab-content>
+      <tab-content title="PIN Totals" :before-change="()=>validateStep('pin-totals')">
+          <pin-totals :barSession="barSession" ref="pin-totals"></pin-totals>
       </tab-content>
       <tab-content title="Review / Print">
         <review :barSession="barSession"></review>
       </tab-content>
       <tab-content title="Close">
-          <close></close>
+          <close />
       </tab-content>
     </form-wizard>
 
@@ -37,8 +46,11 @@ import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import BarSession from '@/BarSession'
 import BarSessionFile from '@/BarSessionFile'
 import SessionDetails from '@/components/steps/SessionDetails'
+import OpenTerminals from '@/components/steps/OpenTerminals'
 import StartPos from '@/components/steps/StartPos'
-import Totals from '@/components/steps/Totals'
+import PosTotals from '@/components/steps/PosTotals'
+import CloseTerminals from '@/components/steps/CloseTerminals'
+import PinTotals from '@/components/steps/PinTotals'
 import Review from '@/components/steps/Review'
 import Close from '@/components/steps/Close'
 
@@ -49,8 +61,11 @@ export default {
     FormWizard,
     TabContent,
     SessionDetails,
+    OpenTerminals,
     StartPos,
-    Totals,
+    PosTotals,
+    CloseTerminals,
+    PinTotals,
     Review,
     Close
   },

@@ -16,16 +16,16 @@
           <table class="w-full">
             <tbody>
               <tr>
-                <td>PIN Apparaat Omzet<sup>5</sup></td>
-                <td class="text-right">{{ barSession.actualPinTotal | currency }}</td>
+                <td>Vast PIN Apparaat<sup>5</sup></td>
+                <td class="text-right">{{ barSession.actualFixedPinTotal | currency }}</td>
               </tr>
               <tr>
-                <td>Contant Omzet</td>
-                <td class="text-right">--</td>
+                <td>Mobiel PIN Apparaat<sup>5</sup></td>
+                <td class="text-right">{{ barSession.actualMobilePinTotal | currency }}</td>
               </tr>
               <tr>
                 <td class="border-t border-black">Daadwerkelijke Omzet<sup>7</sup></td>
-                <td class="border-t border-black text-right">{{ barSession.actualPinTotal | currency }}</td>
+                <td class="border-t border-black text-right">{{ barSession.actualTotal() | currency }}</td>
               </tr>
             </tbody>
           </table>
@@ -43,7 +43,7 @@
               </tr>
               <tr>
                 <td class="border-t border-black">Theoretische Omzet<sup>2</sup></td>
-                <td class="border-t border-black text-right">{{ barSession.posCashTotal + barSession.posPinTotal | currency }}</td>
+                <td class="border-t border-black text-right">{{ barSession.theoreticalTotal() | currency }}</td>
               </tr>
             </tbody>
           </table>
