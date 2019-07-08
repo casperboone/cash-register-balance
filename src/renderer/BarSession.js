@@ -1,6 +1,4 @@
 import BarSessionType from './BarSessionType'
-import CashDrawerContents from './CashDrawerContents'
-import SafeContents from './SafeContents'
 import BarSessionFile from './BarSessionFile'
 
 export default class BarSession {
@@ -9,10 +7,6 @@ export default class BarSession {
     this.type = BarSessionType.getDefaultForDate(this.date)
     this.originalAuthorName = ''
     this.closingAuthorName = ''
-
-    this.cashAtStart = new CashDrawerContents()
-    this.cashAtEnd = new CashDrawerContents()
-    this.cashToSafe = new SafeContents(this.cashAtEnd) // Serialization note: SafeContents has extra fields
 
     this.posDataRetrieved = false
     this.posCashTotal = 0.0
@@ -38,10 +32,6 @@ export default class BarSession {
     barSession.type = BarSessionType.getById(contents.type.id)
     barSession.originalAuthorName = contents.originalAuthorName
     barSession.closingAuthorName = contents.closingAuthorName
-
-    barSession.cashAtStart = CashDrawerContents.fromFile(contents.cashAtStart)
-    barSession.cashAtEnd = CashDrawerContents.fromFile(contents.cashAtEnd)
-    barSession.cashToSafe = SafeContents.fromFile(barSession.cashAtEnd, contents.cashToSafe)
 
     barSession.posDataRetrieved = contents.posDataRetrieved
     barSession.posCashTotal = contents.posCashTotal

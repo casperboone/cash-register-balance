@@ -13,32 +13,11 @@
         <session-details :barSession="barSession" ref="session-details"></session-details>
         <button v-if="!currentSessionIsAPreviousSession" @click="continueWithPreviousSession" class="border border-black rounded mt-4 py-2 px-4 text-sm">&laquo; Continue with previous session</button>
       </tab-content>
-      <tab-content title="Cash at Start">
-          <cash-form title="Cash at Start" :cashDrawerContents="barSession.cashAtStart" ref="cash-at-start"></cash-form>
-      </tab-content>
       <tab-content title="Start POS" :before-change="()=>updateComponent('totals')">
           <start-pos :barSession="barSession" ref="start-pos"></start-pos>
       </tab-content>
       <tab-content title="Totals" :before-change="()=>validateStep('totals')">
           <totals :barSession="barSession" ref="totals"></totals>
-      </tab-content>
-      <tab-content title="Cash at End" :before-change="()=>updateComponent('cash-to-safe')">
-          <cash-form title="Cash at End" :cashDrawerContents="barSession.cashAtEnd" ref="cash-at-end"></cash-form>
-      </tab-content>
-      <tab-content title="Cash to Safe">
-          <cash-form title="Cash to Safe" :cashDrawerContents="barSession.cashToSafe" ref="cash-to-safe">
-            <help-note class="help-note-small">
-               We have to make sure there's around <strong>200</strong> euros left in the cash drawer. If this is not the case, we have to put money in the grey safe (in an envelope).
-            </help-note>
-            <help-note class="help-note-small">
-              To help you, a prediction of which bank notes / coints need to go to the grey safe is made. The amounts can be adjusted if you deem this necessary.
-            </help-note>
-            <help-note class="help-note-small mb-0">
-              Remaining amount of money in the cash drawer with the current amounts on the left:
-              <div class="text-lg text-center py-2">{{ barSession.cashToSafe.remainingCashInDrawer() | currency }}*</div>
-              <small>* excluding emergency cash</small>
-            </help-note>
-          </cash-form>
       </tab-content>
       <tab-content title="Review / Print">
         <review :barSession="barSession"></review>
@@ -58,7 +37,6 @@ import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import BarSession from '@/BarSession'
 import BarSessionFile from '@/BarSessionFile'
 import SessionDetails from '@/components/steps/SessionDetails'
-import CashForm from '@/components/steps/CashForm'
 import StartPos from '@/components/steps/StartPos'
 import Totals from '@/components/steps/Totals'
 import Review from '@/components/steps/Review'
@@ -71,7 +49,6 @@ export default {
     FormWizard,
     TabContent,
     SessionDetails,
-    CashForm,
     StartPos,
     Totals,
     Review,

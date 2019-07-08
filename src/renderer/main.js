@@ -4,13 +4,10 @@ import App from './App'
 import router from './router'
 import store from './store'
 
-// import Vue2Filters from 'vue2-filters'
-// import VueNumeric from 'vue-numeric'
-// import VuePaginate from 'vue-paginate'
 import VueCurrencyFilter from 'vue-currency-filter'
 import Vuelidate from 'vuelidate'
 import VueMoment from 'vue-moment'
-import moment from 'moment' // unused?
+import moment from 'moment'
 
 import { remote } from 'electron'
 
@@ -19,9 +16,6 @@ import HelpNote from './components/HelpNote'
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.config.productionTip = false
 
-// Vue.use(Vue2Filters)
-// Vue.use(VueNumeric)
-// Vue.use(VuePaginate)
 Vue.use(Vuelidate)
 Vue.use(VueMoment)
 
