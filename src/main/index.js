@@ -31,7 +31,7 @@ function createMainWindow () {
 function createPrinterWorkerWindow () {
   printerWorkerWindow = new BrowserWindow()
   printerWorkerWindow.loadURL(winURL + '/printer_worker.html')
-  // printerWorkerWindow.hide()
+  printerWorkerWindow.hide()
   printerWorkerWindow.on('closed', () => {
     printerWorkerWindow = null
   })
