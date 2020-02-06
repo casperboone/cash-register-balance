@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+  <head>
+    <title>DWH Kassa</title>
+  </head>
+  <body>
+    <h1>DWH Kassa export</h1>
+    <form action="export">
+      Start:<br>
+      <input type="date" name="start" value=""><br>
+      End:<br>
+      <input type="date" name="end" value=""><br>
+      <br>
+      <input type="submit" value="Submit">
+    </form>
+
+    <script>
+      Date.prototype.toDateInputValue = (function() {
+        var local = new Date(this);
+        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+        return local.toJSON().slice(0,10);
+      });
+
+      document.addEventListener('DOMContentLoaded', function () {
+        var lastMonth = new Date()
+        lastMonth.setMonth(lastMonth.getMonth() - 1)
+        document.querySelector('input[name=start]').value = lastMonth.toDateInputValue()
+
+        document.querySelector('input[name=end]').value = new Date().toDateInputValue()
+      })
+    </script>
+  </body>
+</html>
