@@ -8,6 +8,7 @@
     </top-bar>
 
     <form-wizard class="pt-4 px-8" title="" subtitle="" color="#103d60" shape="circle" @on-change="saveSession">
+      <template v-slot:finish><div /></template>
       <tab-content title="Session Details" :before-change="()=>validateStep('session-details')">
         <help-note v-if="currentSessionIsAPreviousSession" class="bg-yellow-lighter"><strong>Please note:</strong> You're continuing with the previous session. If this was unintentional, <a @click="createNewSession" class="bg-yellow-dark p-2 rounded">click here</a> to start a new session.</help-note>
         <session-details :barSession="barSession" ref="session-details"></session-details>
@@ -35,7 +36,6 @@
           <close />
       </tab-content>
     </form-wizard>
-
   </div>
 </template>
 
