@@ -25,11 +25,11 @@ class BarSessionType {
 }
 
 const types = [
-  new BarSessionType(0, 'EatingOUT', 2),
+  new BarSessionType(0, 'EatingOUT', 1),
+  new BarSessionType(6, 'AEGEE', 2),
   new BarSessionType(1, 'Fillum', 3),
   new BarSessionType(2, 'Outsite', 4),
-  new BarSessionType(3, 'Vrijdagbar', 5),
-  new BarSessionType(4, 'SHE', 6),
+  new BarSessionType(3, 'MIXUP', 6),
   new BarSessionType(5, 'Other')
 ]
 
