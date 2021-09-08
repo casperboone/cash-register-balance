@@ -1,6 +1,7 @@
 'use strict'
 
 import { app, BrowserWindow, ipcMain } from 'electron'
+import WebServer from '../web/app'
 
 /**
  * Set `__static` path to static files in production
@@ -40,6 +41,8 @@ function createPrinterWorkerWindow () {
 app.on('ready', () => {
   createMainWindow()
   createPrinterWorkerWindow()
+
+  new WebServer().setDataPath(app.getPath('userData')).start()
 })
 
 app.on('window-all-closed', () => {
