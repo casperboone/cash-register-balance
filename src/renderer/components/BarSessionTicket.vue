@@ -34,10 +34,6 @@
           <table class="w-full">
             <tbody>
               <tr>
-                <td>Kassa Contant</td>
-                <td class="text-right">{{ barSession.posCashTotal | currency }}</td>
-              </tr>
-              <tr>
                 <td>Kassa PIN</td>
                 <td class="text-right">{{ barSession.posPinTotal | currency }}</td>
               </tr>

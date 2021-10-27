@@ -9,7 +9,6 @@ export default class BarSession {
     this.closingAuthorName = ''
 
     this.posDataRetrieved = false
-    this.posCashTotal = 0.0
     this.posPinTotal = 0.0
     this.posFreeTotal = 0.0
 
@@ -24,7 +23,7 @@ export default class BarSession {
   }
 
   theoreticalTotal () {
-    return this.posCashTotal + this.posPinTotal
+    return this.posPinTotal
   }
 
   saveToDisk () {
@@ -43,7 +42,6 @@ export default class BarSession {
     barSession.closingAuthorName = contents.closingAuthorName
 
     barSession.posDataRetrieved = contents.posDataRetrieved
-    barSession.posCashTotal = contents.posCashTotal
     barSession.posPinTotal = contents.posPinTotal
     barSession.posFreeTotal = contents.posFreeTotal
 

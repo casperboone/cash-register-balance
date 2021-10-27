@@ -6,7 +6,7 @@ export default class Unicenta {
       host: '127.0.0.1',
       user: 'root',
       password: 'admin',
-      database: 'unicentaopos'
+      database: 'unicenta2021'
     })
 
     connection.connect()
@@ -42,8 +42,7 @@ export default class Unicenta {
         startDate: results[0]['start_date'],
         endDate: results[0]['end_date'],
 
-        cashTotal: this.findTotal(results, 'cash'),
-        pinTotal: this.findTotal(results, 'magcard'),
+        pinTotal: this.findTotal(results, 'ccard'),
         freeTotal: this.findTotal(results, 'free')
       }
     })

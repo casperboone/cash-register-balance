@@ -7,10 +7,6 @@
         </div>
         <div class="p-8 bg-grey-lighter h-48">
           <div class="flex justify-between items-center mb-3">
-            <div>POS Cash Total</div>
-            <div>{{ barSession.posCashTotal | currency }}</div>
-          </div>
-          <div class="flex justify-between items-center mb-3">
             <div>POS PIN Total</div>
             <div>{{ barSession.posPinTotal | currency }}</div>
           </div>

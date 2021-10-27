@@ -20,10 +20,6 @@
         </div>
         <div class="px-8 py-4 bg-grey-lighter">
           <div class="flex justify-between items-center mb-2">
-            <div>Cash Total</div>
-            <div><money-input v-model="barSession.posCashTotal" :disabled="noManualPosTotals"></money-input></div>
-          </div>
-          <div class="flex justify-between items-center mb-2">
             <div>PIN Total</div>
             <div><money-input v-model.number="barSession.posPinTotal" :disabled="noManualPosTotals"></money-input></div>
           </div>
@@ -89,7 +85,6 @@ export default {
       if (!this.barSession.posDataRetrieved) {
         new Unicenta().requestTotals().then(totals => {
           this.barSession.posDataRetrieved = true
-          this.barSession.posCashTotal = totals.cashTotal
           this.barSession.posPinTotal = totals.pinTotal
           this.barSession.posFreeTotal = totals.freeTotal
 
@@ -101,7 +96,6 @@ export default {
     },
     refetchPosData () {
       new Unicenta().requestTotals().then(totals => {
-        this.barSession.posCashTotal = totals.cashTotal
         this.barSession.posPinTotal = totals.pinTotal
         this.barSession.posFreeTotal = totals.freeTotal
 
