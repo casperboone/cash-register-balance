@@ -44,7 +44,8 @@ export default class Unicenta {
 
         cashTotal: this.findTotal(results, 'cash'),
         pinTotal: this.findTotal(results, 'magcard'),
-        freeTotal: this.findTotal(results, 'free')
+        freeTotal: this.findTotal(results, 'free'),
+        slipTotal: this.findTotal(results, 'slip'),
       }
     })
   }
