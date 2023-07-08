@@ -55,7 +55,7 @@
           </table>
       </div>
 
-      <div class="mt-8 text-center w-full italic">Put this ticket in the envelope for the grey safe.</div>
+      <div class="mt-8 text-center w-full italic">Thank you for bartending!<br />Enjoy your night!</div>
     </div>
   </div>
 </template>
