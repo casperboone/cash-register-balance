@@ -27,6 +27,10 @@
             <div>Free Total</div>
             <div><money-input v-model.number="barSession.posFreeTotal" :disabled="noManualPosTotals"></money-input></div>
           </div>
+          <div class="flex justify-between items-center">
+            <div>Slip Total (Free Drink Cards)</div>
+            <div><money-input v-model.number="barSession.posSlipTotal" :disabled="noManualPosTotals"></money-input></div>
+          </div>
 
           <div class="text-sm text-grey mt-2" v-if="unicenta">
             POS data from session closed at {{ this.unicenta.endDate | moment('YYYY-MM-DD HH:mm:ss') }}.
@@ -87,6 +91,7 @@ export default {
           this.barSession.posDataRetrieved = true
           this.barSession.posPinTotal = totals.pinTotal
           this.barSession.posFreeTotal = totals.freeTotal
+          this.barSession.posSlipTotal = totals.slipTotal
 
           this.unicenta = totals
         }).finally(() => { this.blockFields = false })
@@ -98,6 +103,7 @@ export default {
       new Unicenta().requestTotals().then(totals => {
         this.barSession.posPinTotal = totals.pinTotal
         this.barSession.posFreeTotal = totals.freeTotal
+        this.barSession.posSlipTotal = totals.slipTotal
 
         this.unicenta = totals
       })

@@ -51,6 +51,10 @@
                 <td>Personeel<sup>3</sup></td>
                 <td class="text-right">{{ barSession.posFreeTotal | currency }}</td>
               </tr>
+              <tr>
+                <td>Slip (Free Drinks)</td>
+                <td class="text-right">{{ barSession.posSlipTotal | currency }}</td>
+              </tr>
             </tbody>
           </table>
       </div>

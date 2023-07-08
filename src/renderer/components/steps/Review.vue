@@ -14,7 +14,12 @@
             <div>POS Free Total*</div>
             <div>{{ barSession.posFreeTotal | currency }}</div>
           </div>
+          <div class="flex justify-between items-center">
+            <div>POS Slip Total**</div>
+            <div>{{ barSession.posSlipTotal | currency }}</div>
+          </div>
           <div><small>* Drinks for bar crew, not included in total</small></div>
+          <div><small>** Drinks for free drink cards, not included in total</small></div>
         </div>
         <div class="px-8 py-6 bg-white">
           <div class="flex justify-between items-center">

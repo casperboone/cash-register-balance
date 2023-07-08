@@ -42,8 +42,9 @@ export default class Unicenta {
         startDate: results[0]['start_date'],
         endDate: results[0]['end_date'],
 
-        pinTotal: this.findTotal(results, 'ccard'),
-        freeTotal: this.findTotal(results, 'free')
+        pinTotal: this.findTotal(results, 'magcard'),
+        freeTotal: this.findTotal(results, 'free'),
+        slipTotal: this.findTotal(results, 'slip'),
       }
     })
   }

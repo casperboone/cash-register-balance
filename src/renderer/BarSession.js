@@ -11,6 +11,7 @@ export default class BarSession {
     this.posDataRetrieved = false
     this.posPinTotal = 0.0
     this.posFreeTotal = 0.0
+    this.posSlipTotal = 0.0
 
     this.actualFixedPinTotal = 0.0
     this.actualMobilePinTotal = 0.0
@@ -44,6 +45,7 @@ export default class BarSession {
     barSession.posDataRetrieved = contents.posDataRetrieved
     barSession.posPinTotal = contents.posPinTotal
     barSession.posFreeTotal = contents.posFreeTotal
+    barSession.posSlipTotal = contents.posSlipTotal
 
     barSession.actualFixedPinTotal = contents.actualFixedPinTotal
     barSession.actualMobilePinTotal = contents.actualMobilePinTotal
