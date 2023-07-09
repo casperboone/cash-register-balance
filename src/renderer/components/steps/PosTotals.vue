@@ -23,7 +23,7 @@
             <div>PIN Total</div>
             <div><money-input v-model.number="barSession.posPinTotal" :disabled="noManualPosTotals"></money-input></div>
           </div>
-          <div class="flex justify-between items-center">
+          <div class="flex justify-between items-center mb-2">
             <div>Free Total</div>
             <div><money-input v-model.number="barSession.posFreeTotal" :disabled="noManualPosTotals"></money-input></div>
           </div>

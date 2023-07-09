@@ -10,7 +10,7 @@
             <div>POS PIN Total</div>
             <div>{{ barSession.posPinTotal | currency }}</div>
           </div>
-          <div class="flex justify-between items-center">
+          <div class="flex justify-between items-center mb-3">
             <div>POS Free Total*</div>
             <div>{{ barSession.posFreeTotal | currency }}</div>
           </div>
